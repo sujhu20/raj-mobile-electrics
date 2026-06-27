@@ -27,8 +27,10 @@ export default function Header() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { user, isAuthenticated } = useAppSelector((s) => s.auth);
-  const { items: cartItems } = useAppSelector((s) => s.cart);
-  const { items: wishlistItems } = useAppSelector((s) => s.wishlist);
+  const { items: cartItemsRaw } = useAppSelector((s) => s.cart);
+  const { items: wishlistItemsRaw } = useAppSelector((s) => s.wishlist);
+  const cartItems = Array.isArray(cartItemsRaw) ? cartItemsRaw : [];
+  const wishlistItems = Array.isArray(wishlistItemsRaw) ? wishlistItemsRaw : [];
   const { mobileMenuOpen } = useAppSelector((s) => s.ui);
 
   const [searchQuery, setSearchQuery] = useState('');

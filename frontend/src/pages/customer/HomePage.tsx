@@ -130,12 +130,18 @@ export default function HomePage() {
           api.get('/banners').catch(() => ({ data: { data: [] } })),
           api.get('/categories').catch(() => ({ data: { data: [] } })),
         ]);
-        setFeatured(f.data.data);
-        setLatest(l.data.data);
-        setTopSelling(t.data.data);
-        setBanners(b.data.data);
-        setCategories(c.data.data);
-      } catch {}
+        setFeatured(Array.isArray(f?.data?.data) ? f.data.data : []);
+        setLatest(Array.isArray(l?.data?.data) ? l.data.data : []);
+        setTopSelling(Array.isArray(t?.data?.data) ? t.data.data : []);
+        setBanners(Array.isArray(b?.data?.data) ? b.data.data : []);
+        setCategories(Array.isArray(c?.data?.data) ? c.data.data : []);
+      } catch {
+        setFeatured([]);
+        setLatest([]);
+        setTopSelling([]);
+        setBanners([]);
+        setCategories([]);
+      }
       setLoading(false);
     }
     fetchData();
@@ -232,7 +238,7 @@ export default function HomePage() {
       </section>
 
       {/* Shop by Category */}
-      {categories.length > 0 && (
+      {(categories?.length ?? 0) > 0 && (
         <section className="max-w-7xl mx-auto px-4 py-12">
           <SectionHeader title="Shop by Category" subtitle="Browse our wide range of electronics" href="/products" />
           <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-7 gap-3">
@@ -259,7 +265,7 @@ export default function HomePage() {
       )}
 
       {/* Featured Products */}
-      {featured.length > 0 && (
+      {(featured?.length ?? 0) > 0 && (
         <section className="max-w-7xl mx-auto px-4 py-12">
           <SectionHeader title="Featured Products" subtitle="Hand-picked top electronics" href="/products?featured=true" />
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
@@ -313,7 +319,7 @@ export default function HomePage() {
       </section>
 
       {/* Latest Products */}
-      {latest.length > 0 && (
+      {(latest?.length ?? 0) > 0 && (
         <section className="max-w-7xl mx-auto px-4 py-12">
           <SectionHeader title="New Arrivals" subtitle="Just landed in our store" href="/products?sort=newest" />
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
@@ -325,7 +331,7 @@ export default function HomePage() {
       )}
 
       {/* Top Selling */}
-      {topSelling.length > 0 && (
+      {(topSelling?.length ?? 0) > 0 && (
         <section className="bg-surface-100/50 py-12">
           <div className="max-w-7xl mx-auto px-4">
             <SectionHeader title="🔥 Best Sellers" subtitle="Most popular products" href="/products?sort=popular" />
@@ -339,7 +345,7 @@ export default function HomePage() {
       )}
 
       {/* Empty state when no products */}
-      {!loading && featured.length === 0 && latest.length === 0 && (
+      {!loading && (featured?.length ?? 0) === 0 && (latest?.length ?? 0) === 0 && (
         <section className="max-w-7xl mx-auto px-4 py-20 text-center">
           <div className="text-7xl mb-4">🛍️</div>
           <h2 className="text-2xl font-bold mb-2">Welcome to {APP_NAME}!</h2>

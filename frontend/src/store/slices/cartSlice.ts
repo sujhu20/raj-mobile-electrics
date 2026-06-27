@@ -112,9 +112,9 @@ const cartSlice = createSlice({
     builder.addCase(fetchCart.pending, (state) => { state.isLoading = true; });
     builder.addCase(fetchCart.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.items = action.payload.items;
-      state.summary = action.payload.summary;
-      state.coupon = action.payload.coupon;
+      state.items = Array.isArray(action.payload?.items) ? action.payload.items : [];
+      state.summary = action.payload?.summary || { subtotal: 0, discount: 0, tax: 0, deliveryFee: 0, total: 0, itemCount: 0 };
+      state.coupon = action.payload?.coupon || null;
     });
     builder.addCase(fetchCart.rejected, (state) => { state.isLoading = false; });
   },
