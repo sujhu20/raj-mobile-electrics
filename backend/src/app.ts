@@ -6,7 +6,7 @@ import { env } from './config/env';
 import { generalLimiter } from './middleware/rateLimiter';
 import { errorHandler, notFoundHandler } from './middleware/errorHandler';
 import prisma from './config/database';
-import { getRedis } from './config/redis';
+import { getRedis, isRedisReady } from './config/redis';
 
 // Import route modules
 import authRoutes from './modules/auth/auth.routes';
@@ -84,13 +84,7 @@ app.get('/ready', async (_req, res) => {
   }
 
   // Redis check (optional — not a hard failure for readiness)
-  try {
-    const redis = getRedis();
-    await redis.ping();
-    checks.redis = 'ok';
-  } catch {
-    checks.redis = 'unavailable';
-  }
+  checks.redis = isRedisReady() ? 'ok' : 'unavailable';
 
   const statusCode = allOk ? 200 : 503;
   res.status(statusCode).json({
@@ -127,13 +121,7 @@ app.get('/api/health', async (_req, res) => {
   }
 
   // Redis check
-  try {
-    const redis = getRedis();
-    await redis.ping();
-    health.redis = 'connected';
-  } catch {
-    health.redis = 'unavailable';
-  }
+  health.redis = isRedisReady() ? 'connected' : 'unavailable';
 
   const statusCode = health.status === 'ok' ? 200 : 503;
   res.status(statusCode).json({ success: true, data: health });
