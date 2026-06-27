@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { FiStar, FiShoppingCart, FiHeart, FiMinus, FiPlus, FiCheck, FiTruck, FiShield, FiRefreshCw, FiChevronRight } from 'react-icons/fi';
+import { FiStar, FiShoppingCart, FiHeart, FiMinus, FiPlus, FiCheck, FiTruck, FiShield, FiRefreshCw } from 'react-icons/fi';
 import api from '../../config/api';
 import { CURRENCY } from '../../config/constants';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
@@ -219,7 +219,7 @@ export default function ProductDetailPage() {
         <section className="mt-12 pt-8 border-t border-surface-200/60">
           <h2 className="text-2xl font-bold mb-6">Similar Products</h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
-            {similar.slice(0, 6).map((p, i) => (
+            {similar.slice(0, 6).map((p, _i) => (
               <Link key={p.id} to={`/products/${p.slug}`} className="group bg-white rounded-2xl border border-surface-200/60 overflow-hidden hover:shadow-card-hover transition-all p-3">
                 <div className="aspect-square bg-surface-50 rounded-xl overflow-hidden mb-2">
                   <img src={p.images?.[0]?.url || 'https://via.placeholder.com/200'} alt={p.name} className="w-full h-full object-contain group-hover:scale-105 transition-transform" />

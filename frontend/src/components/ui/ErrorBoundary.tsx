@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import type { ErrorInfo, ReactNode } from 'react';
 import { FiAlertTriangle, FiRefreshCw } from 'react-icons/fi';
 
@@ -21,7 +21,7 @@ export function ErrorFallback({ error, resetError }: ErrorFallbackProps) {
         <p className="text-sm text-surface-700/60">
           An unexpected error occurred. The rest of the application is unaffected.
         </p>
-        {process.env.NODE_ENV === 'development' && (
+        {import.meta.env.DEV && (
           <details className="text-left bg-surface-50 rounded-xl p-3 text-xs text-surface-700/70">
             <summary className="cursor-pointer font-medium mb-1">Error details</summary>
             <pre className="whitespace-pre-wrap break-words mt-1">{error.message}</pre>

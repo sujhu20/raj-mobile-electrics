@@ -15,7 +15,7 @@ export default function AdminOrdersPage() {
   const [search, setSearch] = useState('');
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const [page, setPage] = useState(1);
-  const [pagination, setPagination] = useState<PaginationMeta | null>(null);
+  const [_pagination, setPagination] = useState<PaginationMeta | null>(null);
 
   const fetchOrders = useCallback(async () => {
     setLoading(true);

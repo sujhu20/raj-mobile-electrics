@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { FiFilter, FiX, FiChevronDown, FiGrid, FiList, FiStar, FiShoppingCart, FiHeart } from 'react-icons/fi';
+import { FiFilter, FiX, FiStar, FiShoppingCart, FiHeart } from 'react-icons/fi';
 import api from '../../config/api';
 import { CURRENCY, BRANDS } from '../../config/constants';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';

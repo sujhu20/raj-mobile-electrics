@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { FiCheck, FiX, FiPackage, FiTruck, FiMapPin } from 'react-icons/fi';
+import { FiCheck, FiX, FiMapPin } from 'react-icons/fi';
 import api from '../../config/api';
 import { CURRENCY, ORDER_STATUS_COLORS } from '../../config/constants';
 import toast from 'react-hot-toast';

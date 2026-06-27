@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { FiUser, FiMail, FiPhone, FiCamera, FiMapPin, FiPlus, FiEdit2, FiTrash2, FiLock } from 'react-icons/fi';
+import { FiUser, FiMail, FiPhone, FiMapPin, FiPlus, FiEdit2, FiTrash2, FiLock } from 'react-icons/fi';
 import api from '../../config/api';
 import { useAppSelector, useAppDispatch } from '../../store/hooks';
 import { fetchProfile } from '../../store/slices/authSlice';

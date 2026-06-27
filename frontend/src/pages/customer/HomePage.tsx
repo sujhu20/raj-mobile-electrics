@@ -6,7 +6,7 @@ import api from '../../config/api';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { addToCart } from '../../store/slices/cartSlice';
 import { toggleWishlist } from '../../store/slices/wishlistSlice';
-import { CURRENCY, APP_NAME, APP_DESCRIPTION, CATEGORY_ICONS } from '../../config/constants';
+import { CURRENCY, APP_NAME, CATEGORY_ICONS } from '../../config/constants';
 
 function ProductCard({ product, index }: { product: any; index: number }) {
   const dispatch = useAppDispatch();
@@ -117,7 +117,7 @@ export default function HomePage() {
   const [latest, setLatest] = useState<any[]>([]);
   const [topSelling, setTopSelling] = useState<any[]>([]);
   const [categories, setCategories] = useState<any[]>([]);
-  const [banners, setBanners] = useState<any[]>([]);
+  const [_banners, setBanners] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

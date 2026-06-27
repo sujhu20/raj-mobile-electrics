@@ -9,7 +9,7 @@ import { useState } from 'react';
 
 export default function CartPage() {
   const dispatch = useAppDispatch();
-  const { items, summary, coupon, isLoading } = useAppSelector((s) => s.cart);
+  const { items, summary, coupon } = useAppSelector((s) => s.cart);
   const { isAuthenticated } = useAppSelector((s) => s.auth);
   const [couponCode, setCouponCode] = useState('');
   const [couponError, setCouponError] = useState('');

@@ -28,7 +28,22 @@ const productSchema = z.object({
   tags: z.string().optional(),
 });
 
-type ProductForm = z.infer<typeof productSchema>;
+interface ProductForm {
+  name: string;
+  description: string;
+  brand: string;
+  model?: string;
+  sku?: string;
+  price: number;
+  compareAtPrice?: number;
+  stock: number;
+  categoryId: string;
+  isActive: boolean;
+  isFeatured: boolean;
+  status: string;
+  warrantyMonths?: number;
+  tags?: string;
+}
 
 export default function AdminProductFormPage() {
   const navigate = useNavigate();
@@ -41,8 +56,8 @@ export default function AdminProductFormPage() {
   const [loading, setLoading] = useState(isEditing); // Block form until product data is loaded
   const [specs, setSpecs] = useState<{ key: string; value: string }[]>([{ key: '', value: '' }]);
 
-  const { register, handleSubmit, formState: { errors, isDirty }, reset, setValue } = useForm<ProductForm>({
-    resolver: zodResolver(productSchema),
+  const { register, handleSubmit, formState: { errors }, reset } = useForm<ProductForm>({
+    resolver: zodResolver(productSchema) as any,
     defaultValues: { isActive: true, isFeatured: false, stock: 0, status: 'ACTIVE' },
   });
 

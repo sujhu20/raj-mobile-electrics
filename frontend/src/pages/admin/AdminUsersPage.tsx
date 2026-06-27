@@ -12,7 +12,7 @@ export default function AdminUsersPage() {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
-  const [pagination, setPagination] = useState<PaginationMeta | null>(null);
+  const [_pagination, setPagination] = useState<PaginationMeta | null>(null);
 
   const fetchUsers = useCallback(async () => {
     setLoading(true);

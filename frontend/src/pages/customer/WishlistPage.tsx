@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { FiHeart, FiShoppingCart, FiTrash2, FiStar } from 'react-icons/fi';
+import { FiShoppingCart, FiTrash2, FiStar } from 'react-icons/fi';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { fetchWishlist, toggleWishlist, moveToCart } from '../../store/slices/wishlistSlice';
 import { CURRENCY } from '../../config/constants';

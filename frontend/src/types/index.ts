@@ -1,4 +1,4 @@
-import type { Role, OrderStatus, Permission } from '../config/constants';
+import type { Role, OrderStatus } from '../config/constants';
 
 // ============================================================================
 // API Response Wrappers

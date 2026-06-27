@@ -159,7 +159,7 @@ export default function Footer() {
             <ul className="space-y-2.5">
               {FOOTER_LINKS.service.map((item) => (
                 <li key={item.label}>
-                  {'to' in item ? (
+                  {'to' in item && item.to ? (
                     <Link
                       to={item.to}
                       className="text-sm flex items-center gap-1.5 group transition-colors"

@@ -10,7 +10,7 @@ import { fetchWishlist } from './store/slices/wishlistSlice';
 import Layout from './components/layout/Layout';
 import AdminLayout from './components/layout/AdminLayout';
 import { AuthGuard, GuestGuard, AdminGuard } from './guards/Guards';
-import { STORAGE_KEYS, ROUTES } from './config/constants';
+import { STORAGE_KEYS } from './config/constants';
 
 // ============================================================================
 // Lazy-loaded pages — Customer
