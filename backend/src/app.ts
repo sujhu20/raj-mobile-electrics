@@ -39,10 +39,33 @@ app.set('trust proxy', 1);
 // Security headers
 app.use(helmet());
 
-// CORS
+// CORS configuration supporting dynamic Vercel, localhost, and custom domain origins
+const allowedOrigins = [
+  env.FRONTEND_URL,
+  'http://localhost:5173',
+  'http://localhost:3000',
+];
+
 app.use(
   cors({
-    origin: env.FRONTEND_URL,
+    origin: (origin, callback) => {
+      // Allow requests with no origin (like mobile apps, curl, or postman)
+      if (!origin) {
+        callback(null, true);
+        return;
+      }
+      
+      const isAllowed =
+        allowedOrigins.includes(origin) ||
+        origin.endsWith('.vercel.app') ||
+        origin.startsWith('http://localhost:');
+        
+      if (isAllowed) {
+        callback(null, true);
+      } else {
+        callback(new Error(`Origin ${origin} not allowed by CORS`));
+      }
+    },
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
@@ -125,6 +148,16 @@ app.get('/api/health', async (_req, res) => {
 
   const statusCode = health.status === 'ok' ? 200 : 503;
   res.status(statusCode).json({ success: true, data: health });
+});
+
+// Temporary route for environment variable debugging in production
+app.get('/api/debug-env', (_req, res) => {
+  res.status(200).json({
+    envFrontendUrl: env.FRONTEND_URL,
+    processFrontendUrl: process.env.FRONTEND_URL || null,
+    processAllKeys: Object.keys(process.env).filter(k => !k.includes('SECRET') && !k.includes('PASSWORD') && !k.includes('KEY') && !k.includes('TOKEN') && !k.includes('URL')),
+    nodeEnv: process.env.NODE_ENV || null,
+  });
 });
 
 // ============================================================================
