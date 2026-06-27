@@ -5,7 +5,9 @@ import { asyncHandler } from '../../utils/asyncHandler';
 
 export class AuthController {
   register = asyncHandler(async (req: Request, res: Response) => {
+    console.log('[CONTROLLER] register - calling authService.register');
     const result = await authService.register(req.body);
+    console.log('[CONTROLLER] register - authService.register returned');
 
     // Set refresh token in HTTP-only cookie
     res.cookie('refreshToken', result.refreshToken, {
@@ -15,10 +17,12 @@ export class AuthController {
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
 
+    console.log('[CONTROLLER] register - sending response');
     ApiResponse.created(res, {
       user: result.user,
       accessToken: result.accessToken,
     }, 'Registration successful. Please verify your email.');
+    console.log('[CONTROLLER] register - response sent');
   });
 
   login = asyncHandler(async (req: Request, res: Response) => {

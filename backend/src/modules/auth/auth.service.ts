@@ -17,19 +17,27 @@ export class AuthService {
    * Register a new user
    */
   async register(data: RegisterInput) {
+    console.log('[REGISTER] START');
+
     // Check if user exists
+    console.log('[REGISTER] Step 1: findUnique - START');
     const existing = await prisma.user.findUnique({ where: { email: data.email } });
+    console.log('[REGISTER] Step 1: findUnique - DONE', !!existing);
     if (existing) {
       throw new AppError('Email already registered', 409);
     }
 
     // Hash password
+    console.log('[REGISTER] Step 2: hashPassword - START');
     const hashedPassword = await hashPassword(data.password);
+    console.log('[REGISTER] Step 2: hashPassword - DONE');
 
     // Generate verification token
     const verifyToken = generateRandomToken();
+    console.log('[REGISTER] Step 3: verifyToken generated');
 
     // Create user
+    console.log('[REGISTER] Step 4: prisma.user.create - START');
     const user = await prisma.user.create({
       data: {
         firstName: data.firstName,
@@ -49,31 +57,41 @@ export class AuthService {
         createdAt: true,
       },
     });
+    console.log('[REGISTER] Step 4: prisma.user.create - DONE', user.id);
 
     // Create empty cart for user
+    console.log('[REGISTER] Step 5: prisma.cart.create - START');
     await prisma.cart.create({
       data: { userId: user.id },
     });
+    console.log('[REGISTER] Step 5: prisma.cart.create - DONE');
 
     // Send verification email
+    console.log('[REGISTER] Step 6: sendEmail - START');
     const verifyUrl = `${env.FRONTEND_URL}/verify-email?token=${verifyToken}`;
     await sendEmail({
       to: user.email,
       subject: `Welcome to ${env.APP_NAME} — Verify Your Email`,
       html: welcomeEmailTemplate(user.firstName, verifyUrl),
     });
+    console.log('[REGISTER] Step 6: sendEmail - DONE');
 
     // Generate tokens
+    console.log('[REGISTER] Step 7: JWT generation - START');
     const payload: TokenPayload = { userId: user.id, role: user.role };
     const accessToken = generateAccessToken(payload);
     const refreshToken = generateRefreshToken(payload);
+    console.log('[REGISTER] Step 7: JWT generation - DONE');
 
     // Store refresh token
+    console.log('[REGISTER] Step 8: prisma.user.update (refreshToken) - START');
     await prisma.user.update({
       where: { id: user.id },
       data: { refreshToken },
     });
+    console.log('[REGISTER] Step 8: prisma.user.update (refreshToken) - DONE');
 
+    console.log('[REGISTER] END - returning result');
     return { user, accessToken, refreshToken };
   }
 
