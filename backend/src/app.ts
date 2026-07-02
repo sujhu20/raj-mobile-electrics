@@ -36,6 +36,12 @@ app.set('trust proxy', 1);
 // GLOBAL MIDDLEWARE
 // ============================================================================
 
+// Global request logger
+app.use((req, res, next) => {
+  console.log("REQUEST:", req.method, req.originalUrl);
+  next();
+});
+
 // Security headers
 app.use(helmet());
 
