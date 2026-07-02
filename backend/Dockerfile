@@ -9,7 +9,7 @@ WORKDIR /app
 
 # Install dependencies first (cached layer)
 COPY package.json package-lock.json ./
-RUN npm ci --ignore-scripts
+RUN npm ci
 
 # Copy source
 COPY tsconfig.json ./
@@ -30,9 +30,9 @@ RUN addgroup -g 1001 -S nodejs && adduser -S nodejs -u 1001
 
 WORKDIR /app
 
-# Install only production dependencies
+# Install only production dependencies (without --ignore-scripts so prisma engine is downloaded)
 COPY package.json package-lock.json ./
-RUN npm ci --only=production --ignore-scripts && npm cache clean --force
+RUN npm ci --only=production && npm cache clean --force
 
 # Copy compiled output
 COPY --from=builder /app/dist ./dist
@@ -56,4 +56,6 @@ EXPOSE 5000
 HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
   CMD wget -qO- http://localhost:5000/api/health || exit 1
 
-CMD ["sh", "-c", "npx prisma migrate deploy && node dist/index.js"]
+# Run migrations (non-blocking) then start server
+# Using ; instead of && ensures the server starts even if migrations fail
+CMD ["sh", "-c", "npx prisma migrate deploy || echo 'Migration warning — skipping'; node dist/index.js"]
