@@ -66,15 +66,17 @@ export class AuthService {
     });
     console.log('[REGISTER] Step 5: prisma.cart.create - DONE');
 
-    // Send verification email
-    console.log('[REGISTER] Step 6: sendEmail - START');
+    // Send verification email (fire-and-forget — don't block registration on email delivery)
+    console.log('[REGISTER] Step 6: sendEmail - FIRE AND FORGET');
     const verifyUrl = `${env.FRONTEND_URL}/verify-email?token=${verifyToken}`;
-    await sendEmail({
+    sendEmail({
       to: user.email,
       subject: `Welcome to ${env.APP_NAME} — Verify Your Email`,
       html: welcomeEmailTemplate(user.firstName, verifyUrl),
+    }).catch((err) => {
+      console.error('[REGISTER] sendEmail failed:', err);
     });
-    console.log('[REGISTER] Step 6: sendEmail - DONE');
+    console.log('[REGISTER] Step 6: sendEmail - dispatched (not awaited)');
 
     // Generate tokens
     console.log('[REGISTER] Step 7: JWT generation - START');
@@ -280,10 +282,13 @@ export class AuthService {
     });
 
     const resetUrl = `${env.FRONTEND_URL}/reset-password?token=${resetToken}`;
-    await sendEmail({
+    // Fire-and-forget — don't block the response on email delivery
+    sendEmail({
       to: user.email,
       subject: `${env.APP_NAME} — Reset Your Password`,
       html: passwordResetTemplate(user.firstName, resetUrl),
+    }).catch((err) => {
+      console.error('[FORGOT_PASSWORD] sendEmail failed:', err);
     });
   }
 
