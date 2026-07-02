@@ -54,12 +54,12 @@ app.use(
         callback(null, true);
         return;
       }
-      
+
       const isAllowed =
         allowedOrigins.includes(origin) ||
         origin.endsWith('.vercel.app') ||
         origin.startsWith('http://localhost:');
-        
+
       if (isAllowed) {
         callback(null, true);
       } else {
@@ -150,63 +150,7 @@ app.get('/api/health', async (_req, res) => {
   res.status(statusCode).json({ success: true, data: health });
 });
 
-// Temporary route for environment variable debugging in production
-app.get('/api/debug-env', (_req, res) => {
-  res.status(200).json({
-    envFrontendUrl: env.FRONTEND_URL,
-    processFrontendUrl: process.env.FRONTEND_URL || null,
-    processAllKeys: Object.keys(process.env).filter(k => !k.includes('SECRET') && !k.includes('PASSWORD') && !k.includes('KEY') && !k.includes('TOKEN') && !k.includes('URL')),
-    nodeEnv: process.env.NODE_ENV || null,
-  });
-});
 
-// Temporary diagnostic: test each register step independently with timing
-app.get('/api/debug-register', async (_req, res) => {
-  const results: Record<string, string> = {};
-  const start = Date.now();
-
-  // Step 1: Prisma read
-  try {
-    const t = Date.now();
-    await prisma.user.findUnique({ where: { email: 'debug-nonexistent@test.com' } });
-    results['1_prisma_read'] = `OK (${Date.now() - t}ms)`;
-  } catch (e: any) {
-    results['1_prisma_read'] = `FAIL: ${e.message}`;
-  }
-
-  // Step 2: bcrypt hash
-  try {
-    const t = Date.now();
-    const bcrypt = require('bcryptjs');
-    await bcrypt.hash('TestPassword123!', 12);
-    results['2_bcrypt_hash'] = `OK (${Date.now() - t}ms)`;
-  } catch (e: any) {
-    results['2_bcrypt_hash'] = `FAIL: ${e.message}`;
-  }
-
-  // Step 3: JWT sign
-  try {
-    const t = Date.now();
-    const jwt = require('jsonwebtoken');
-    jwt.sign({ userId: 'test', role: 'CUSTOMER' }, env.JWT_ACCESS_SECRET || 'fallback', { expiresIn: '15m' });
-    results['3_jwt_sign'] = `OK (${Date.now() - t}ms)`;
-  } catch (e: any) {
-    results['3_jwt_sign'] = `FAIL: ${e.message}`;
-  }
-
-  // Step 4: Resend check (just check if configured, don't send)
-  try {
-    const t = Date.now();
-    const hasResendKey = !!env.RESEND_API_KEY;
-    results['4_resend_configured'] = `${hasResendKey ? 'YES' : 'NO'} (${Date.now() - t}ms)`;
-  } catch (e: any) {
-    results['4_resend_configured'] = `FAIL: ${e.message}`;
-  }
-
-  results['total_time'] = `${Date.now() - start}ms`;
-
-  res.status(200).json({ success: true, diagnostics: results });
-});
 
 // ============================================================================
 // API ROUTES

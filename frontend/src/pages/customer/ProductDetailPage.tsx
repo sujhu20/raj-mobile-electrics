@@ -19,17 +19,22 @@ export default function ProductDetailPage() {
   const [activeTab, setActiveTab] = useState<'description' | 'specs' | 'reviews'>('description');
   const [loading, setLoading] = useState(true);
 
-  const isWishlisted = product && wishlistItems.some((i) => i.productId === product.id);
+  const isWishlisted = product && (wishlistItems || []).some((i) => i.productId === product.id);
   const discount = product?.compareAtPrice ? Math.round(((product.compareAtPrice - product.price) / product.compareAtPrice) * 100) : 0;
 
   useEffect(() => {
     setLoading(true);
     api.get(`/products/${slug}`).then(r => {
-      setProduct(r.data.data);
-      if (r.data.data.id) {
-        api.get(`/products/${r.data.data.id}/similar`).then(s => setSimilar(s.data.data)).catch(() => {});
+      setProduct(r.data?.data || null);
+      if (r.data?.data?.id) {
+        api.get(`/products/${r.data.data.id}/similar`)
+          .then(s => setSimilar(Array.isArray(s.data?.data) ? s.data.data : []))
+          .catch(() => setSimilar([]));
       }
-    }).catch(() => {}).finally(() => setLoading(false));
+    }).catch(() => {
+      setProduct(null);
+      setSimilar([]);
+    }).finally(() => setLoading(false));
   }, [slug]);
 
   if (loading) {
@@ -58,8 +63,8 @@ export default function ProductDetailPage() {
     );
   }
 
-  const images = product.images?.length > 0 ? product.images : [{ url: 'https://via.placeholder.com/600x600?text=Phone' }];
-  const specs = product.specifications || {};
+  const images = Array.isArray(product?.images) && product.images.length > 0 ? product.images : [{ url: 'https://via.placeholder.com/600x600?text=Phone' }];
+  const specs = product?.specifications || {};
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-6">
@@ -195,7 +200,7 @@ export default function ProductDetailPage() {
 
           {activeTab === 'reviews' && (
             <div>
-              {product.reviews?.length > 0 ? product.reviews.map((review: any) => (
+              {(product?.reviews?.length ?? 0) > 0 ? product.reviews.map((review: any) => (
                 <div key={review.id} className="py-4 border-b border-surface-100 last:border-0">
                   <div className="flex items-center gap-3 mb-2">
                     <div className="w-9 h-9 rounded-full gradient-primary flex items-center justify-center text-white text-sm font-bold">{review.user.firstName[0]}</div>
@@ -215,7 +220,7 @@ export default function ProductDetailPage() {
       </div>
 
       {/* Similar Products */}
-      {similar.length > 0 && (
+      {(similar?.length ?? 0) > 0 && (
         <section className="mt-12 pt-8 border-t border-surface-200/60">
           <h2 className="text-2xl font-bold mb-6">Similar Products</h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">

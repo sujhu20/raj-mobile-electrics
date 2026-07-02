@@ -71,7 +71,9 @@ export default function ProductListPage() {
   const currentPage = parseInt(searchParams.get('page') || '1');
 
   useEffect(() => {
-    api.get('/categories').then(r => setCategories(r.data.data)).catch(() => {});
+    api.get('/categories')
+      .then(r => setCategories(Array.isArray(r.data?.data) ? r.data.data : []))
+      .catch(() => setCategories([]));
   }, []);
 
   useEffect(() => {
@@ -86,9 +88,12 @@ export default function ProductListPage() {
     params.set('limit', '12');
 
     api.get(`/products?${params.toString()}`).then(r => {
-      setProducts(r.data.data);
-      setPagination(r.data.pagination);
-    }).catch(() => {}).finally(() => setLoading(false));
+      setProducts(Array.isArray(r.data?.data) ? r.data.data : []);
+      setPagination(r.data?.pagination || null);
+    }).catch(() => {
+      setProducts([]);
+      setPagination(null);
+    }).finally(() => setLoading(false));
   }, [currentCategory, currentBrand, currentSort, currentMinPrice, currentMaxPrice, currentPage]);
 
   const updateFilter = (key: string, value: string) => {
@@ -244,7 +249,7 @@ export default function ProductListPage() {
                 </div>
               ))}
             </div>
-          ) : products.length === 0 ? (
+          ) : (products?.length ?? 0) === 0 ? (
             <div className="text-center py-20">
               <div className="text-6xl mb-4">🛍️</div>
               <h3 className="text-xl font-bold mb-2">No products found</h3>

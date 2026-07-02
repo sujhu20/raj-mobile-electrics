@@ -18,7 +18,10 @@ export default function SearchPage() {
   useEffect(() => {
     if (query) {
       setLoading(true);
-      api.get(`/search?q=${encodeURIComponent(query)}`).then(r => setResults(r.data.data)).catch(() => {}).finally(() => setLoading(false));
+      api.get(`/search?q=${encodeURIComponent(query)}`)
+        .then(r => setResults(r.data?.data || { products: [], categories: [] }))
+        .catch(() => setResults({ products: [], categories: [] }))
+        .finally(() => setLoading(false));
     }
   }, [query]);
 
@@ -42,7 +45,7 @@ export default function SearchPage() {
       {query && <h2 className="text-lg font-bold mb-6">Results for "<span className="text-primary-600">{query}</span>"</h2>}
 
       {/* Category matches */}
-      {results.categories?.length > 0 && (
+      {(results?.categories?.length ?? 0) > 0 && (
         <div className="mb-8">
           <h3 className="font-semibold text-sm text-surface-700/60 mb-3">Categories</h3>
           <div className="flex flex-wrap gap-2">
@@ -58,7 +61,7 @@ export default function SearchPage() {
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
           {Array.from({ length: 8 }).map((_, i) => <div key={i} className="h-64 animate-shimmer rounded-2xl" />)}
         </div>
-      ) : results.products?.length > 0 ? (
+      ) : (results?.products?.length ?? 0) > 0 ? (
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
           {results.products.map((product: any, i: number) => (
             <motion.div key={product.id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.03 }}
