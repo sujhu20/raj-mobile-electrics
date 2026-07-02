@@ -1,6 +1,3 @@
-// Startup diagnostics — logged before any async imports that might fail
-console.log('[BOOT] index.ts loading...');
-
 import app from './app';
 import { env } from './config/env';
 import { logger } from './utils/logger';
@@ -8,48 +5,29 @@ import prisma from './config/database';
 import { connectRedis, disconnectRedis } from './config/redis';
 import { configureCloudinary } from './config/cloudinary';
 
-console.log('[BOOT] All imports resolved');
-
 async function bootstrap(): Promise<void> {
   try {
-    console.log('[BOOT] bootstrap() started');
-    console.log('[BOOT] PORT =', env.PORT, '| NODE_ENV =', env.NODE_ENV);
-
-    // 1. Start server immediately (bind port to prevent Railway port-binding timeout)
-    console.log('[BOOT] Step 1: app.listen() - START on port', env.PORT);
+    // 1. Start server immediately to bind port for Railway
     const server = app.listen(env.PORT, () => {
-      console.log('[BOOT] Step 1: app.listen() - CALLBACK FIRED');
       logger.info(`🚀 ${env.APP_NAME} API running on port ${env.PORT}`);
       logger.info(`📍 Environment: ${env.NODE_ENV}`);
       logger.info(`🌐 Frontend URL: ${env.FRONTEND_URL}`);
     });
 
-    // 2. Connect to database asynchronously in the background
-    console.log('[BOOT] Step 2: prisma.$connect() - START (async)');
+    // 2. Connect to database in the background (prevent blocking port-bind)
     prisma.$connect()
       .then(() => {
-        console.log('[BOOT] Step 2: prisma.$connect() - CONNECTED');
         logger.info('✅ Database connected');
       })
       .catch((error) => {
-        console.error('[BOOT] Step 2: prisma.$connect() - ERROR:', error);
         logger.error({ error }, '❌ Database connection failed on startup');
       });
 
-    // 3. Connect to Redis asynchronously in the background
-    console.log('[BOOT] Step 3: connectRedis() - START (async)');
-    connectRedis()
-      .then(() => {
-        console.log('[BOOT] Step 3: connectRedis() - DONE');
-      })
-      .catch((error) => {
-        console.error('[BOOT] Step 3: connectRedis() - ERROR:', error);
-      });
+    // 3. Connect to Redis in the background
+    connectRedis().catch(() => {});
 
     // 4. Configure Cloudinary
-    console.log('[BOOT] Step 4: configureCloudinary() - START');
     configureCloudinary();
-    console.log('[BOOT] Step 4: configureCloudinary() - DONE');
 
     // Graceful shutdown
     const shutdown = async (signal: string) => {
@@ -81,7 +59,6 @@ async function bootstrap(): Promise<void> {
       process.exit(1);
     });
   } catch (error) {
-    console.error('[BOOT] FATAL ERROR during bootstrap:', error);
     logger.fatal({ error }, 'Failed to start server');
     process.exit(1);
   }
