@@ -15,30 +15,41 @@ async function bootstrap(): Promise<void> {
     console.log('[BOOT] bootstrap() started');
     console.log('[BOOT] PORT =', env.PORT, '| NODE_ENV =', env.NODE_ENV);
 
-    // Connect to database
-    console.log('[BOOT] Step 1: prisma.$connect() - START');
-    await prisma.$connect();
-    console.log('[BOOT] Step 1: prisma.$connect() - DONE');
-    logger.info('✅ Database connected');
-
-    // Connect to Redis (optional — continues if unavailable)
-    console.log('[BOOT] Step 2: connectRedis() - START');
-    await connectRedis();
-    console.log('[BOOT] Step 2: connectRedis() - DONE');
-
-    // Configure Cloudinary
-    console.log('[BOOT] Step 3: configureCloudinary() - START');
-    configureCloudinary();
-    console.log('[BOOT] Step 3: configureCloudinary() - DONE');
-
-    // Start server
-    console.log('[BOOT] Step 4: app.listen() - START on port', env.PORT);
+    // 1. Start server immediately (bind port to prevent Railway port-binding timeout)
+    console.log('[BOOT] Step 1: app.listen() - START on port', env.PORT);
     const server = app.listen(env.PORT, () => {
-      console.log('[BOOT] Step 4: app.listen() - CALLBACK FIRED');
+      console.log('[BOOT] Step 1: app.listen() - CALLBACK FIRED');
       logger.info(`🚀 ${env.APP_NAME} API running on port ${env.PORT}`);
       logger.info(`📍 Environment: ${env.NODE_ENV}`);
       logger.info(`🌐 Frontend URL: ${env.FRONTEND_URL}`);
     });
+
+    // 2. Connect to database asynchronously in the background
+    console.log('[BOOT] Step 2: prisma.$connect() - START (async)');
+    prisma.$connect()
+      .then(() => {
+        console.log('[BOOT] Step 2: prisma.$connect() - CONNECTED');
+        logger.info('✅ Database connected');
+      })
+      .catch((error) => {
+        console.error('[BOOT] Step 2: prisma.$connect() - ERROR:', error);
+        logger.error({ error }, '❌ Database connection failed on startup');
+      });
+
+    // 3. Connect to Redis asynchronously in the background
+    console.log('[BOOT] Step 3: connectRedis() - START (async)');
+    connectRedis()
+      .then(() => {
+        console.log('[BOOT] Step 3: connectRedis() - DONE');
+      })
+      .catch((error) => {
+        console.error('[BOOT] Step 3: connectRedis() - ERROR:', error);
+      });
+
+    // 4. Configure Cloudinary
+    console.log('[BOOT] Step 4: configureCloudinary() - START');
+    configureCloudinary();
+    console.log('[BOOT] Step 4: configureCloudinary() - DONE');
 
     // Graceful shutdown
     const shutdown = async (signal: string) => {
