@@ -160,14 +160,17 @@ export interface Coupon {
   id: string;
   code: string;
   description?: string;
-  discountType: 'PERCENTAGE' | 'FIXED';
-  discountValue: number;
+  discountType?: 'PERCENTAGE' | 'FIXED';
+  discountValue?: number;
+  type?: 'PERCENTAGE' | 'FIXED';
+  value?: number;
   minOrderAmount?: number;
   maxDiscount?: number;
   usageLimit?: number;
   usedCount: number;
-  startDate: string;
-  endDate: string;
+  startDate?: string;
+  endDate?: string;
+  expiresAt?: string;
   isActive: boolean;
   createdAt: string;
 }

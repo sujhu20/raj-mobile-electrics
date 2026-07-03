@@ -51,7 +51,15 @@ export default function AdminBannersPage() {
 
   const handleEdit = (b: Banner) => {
     setEditing(b);
-    setForm({ title: b.title, subtitle: b.subtitle || '', linkUrl: b.linkUrl || '', type: 'HERO', isActive: b.isActive, sortOrder: String(b.sortOrder), expiresAt: '' });
+    setForm({
+      title: b.title,
+      subtitle: b.subtitle || '',
+      linkUrl: b.linkUrl || '',
+      type: (b as any).type || 'HERO',
+      isActive: b.isActive,
+      sortOrder: String(b.sortOrder),
+      expiresAt: (b as any).expiresAt ? new Date((b as any).expiresAt).toISOString().slice(0, 10) : ''
+    });
     setShowForm(true);
   };
 

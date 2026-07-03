@@ -51,10 +51,19 @@ export default function AdminProductFormPage() {
   const isEditing = !!id;
   const [categories, setCategories] = useState<CategoryBrief[]>([]);
   const [images, setImages] = useState<File[]>([]);
+  const [imageUrls, setImageUrls] = useState<string[]>([]);
   const [existingImages, setExistingImages] = useState<ProductImage[]>([]);
   const [uploading, setUploading] = useState(false);
   const [loading, setLoading] = useState(isEditing); // Block form until product data is loaded
   const [specs, setSpecs] = useState<{ key: string; value: string }[]>([{ key: '', value: '' }]);
+
+  useEffect(() => {
+    const urls = images.map(img => URL.createObjectURL(img));
+    setImageUrls(urls);
+    return () => {
+      urls.forEach(url => URL.revokeObjectURL(url));
+    };
+  }, [images]);
 
   const { register, handleSubmit, formState: { errors }, reset } = useForm<ProductForm>({
     resolver: zodResolver(productSchema) as any,
@@ -301,9 +310,9 @@ export default function AdminProductFormPage() {
                 <button type="button" onClick={() => removeExistingImage(img.id)} className="absolute top-1 right-1 w-6 h-6 rounded-full bg-danger-500 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition"><FiX size={12} /></button>
               </div>
             ))}
-            {images.map((img, i) => (
+            {imageUrls.map((url, i) => (
               <div key={i} className="relative aspect-square rounded-xl border border-surface-200 overflow-hidden group">
-                <img src={URL.createObjectURL(img)} alt="" className="w-full h-full object-contain p-2" />
+                <img src={url} alt="" className="w-full h-full object-contain p-2" />
                 <button type="button" onClick={() => removeImage(i)} className="absolute top-1 right-1 w-6 h-6 rounded-full bg-danger-500 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition"><FiX size={12} /></button>
               </div>
             ))}

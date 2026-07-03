@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../../config/api';
+import { fetchCart } from './cartSlice';
 
 interface WishlistItem {
   id: string;
@@ -50,6 +51,7 @@ export const moveToCart = createAsyncThunk(
   async (productId: string, { dispatch }) => {
     await api.post(`/wishlist/${productId}/move-to-cart`);
     dispatch(fetchWishlist());
+    dispatch(fetchCart() as any);
   }
 );
 

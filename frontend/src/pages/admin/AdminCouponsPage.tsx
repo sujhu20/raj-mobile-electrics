@@ -48,7 +48,17 @@ export default function AdminCouponsPage() {
 
   const handleEdit = (c: Coupon) => {
     setEditing(c);
-    setForm({ code: c.code, description: c.description || '', type: c.discountType, value: String(c.discountValue), minOrderAmount: c.minOrderAmount ? String(c.minOrderAmount) : '', maxDiscount: c.maxDiscount ? String(c.maxDiscount) : '', usageLimit: c.usageLimit ? String(c.usageLimit) : '', expiresAt: c.endDate ? new Date(c.endDate).toISOString().slice(0, 10) : '', isActive: c.isActive });
+    setForm({
+      code: c.code,
+      description: c.description || '',
+      type: c.type || c.discountType || 'PERCENTAGE',
+      value: String(c.value || c.discountValue || ''),
+      minOrderAmount: c.minOrderAmount ? String(c.minOrderAmount) : '',
+      maxDiscount: c.maxDiscount ? String(c.maxDiscount) : '',
+      usageLimit: c.usageLimit ? String(c.usageLimit) : '',
+      expiresAt: c.expiresAt ? new Date(c.expiresAt).toISOString().slice(0, 10) : (c.endDate ? new Date(c.endDate).toISOString().slice(0, 10) : ''),
+      isActive: c.isActive
+    });
     setShowForm(true);
   };
 
@@ -99,7 +109,9 @@ export default function AdminCouponsPage() {
                 <div className="w-10 h-10 rounded-xl bg-primary-50 flex items-center justify-center text-primary-600 shrink-0"><FiTag size={18} /></div>
                 <div className="min-w-0">
                   <p className="font-bold text-sm font-mono">{c.code} <span className={`ml-2 px-2 py-0.5 rounded-full text-[10px] font-semibold ${c.isActive ? 'bg-success-500/10 text-success-600' : 'bg-surface-100 text-surface-700/50'}`}>{c.isActive ? 'Active' : 'Inactive'}</span></p>
-                  <p className="text-xs text-surface-700/50 truncate">{c.discountType === 'PERCENTAGE' ? `${c.discountValue}% off` : `${CURRENCY} ${c.discountValue} off`} • Used {c.usedCount}/{c.usageLimit || '∞'} • Expires {new Date(c.endDate).toLocaleDateString()}</p>
+                  <p className="text-xs text-surface-700/50 truncate">
+                    {(c.type || c.discountType) === 'PERCENTAGE' ? `${c.value || c.discountValue}% off` : `${CURRENCY} ${c.value || c.discountValue} off`} • Used {c.usedCount}/{c.usageLimit || '∞'} • Expires {c.expiresAt ? new Date(c.expiresAt).toLocaleDateString() : (c.endDate ? new Date(c.endDate).toLocaleDateString() : 'Never')}
+                  </p>
                 </div>
               </div>
               <div className="flex items-center gap-1 shrink-0">

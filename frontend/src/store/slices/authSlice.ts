@@ -65,7 +65,9 @@ export const fetchProfile = createAsyncThunk(
       const { data } = await api.get(ENDPOINTS.USERS.ME);
       return data.data as User;
     } catch (err: any) {
-      localStorage.removeItem(STORAGE_KEYS.ACCESS_TOKEN);
+      if (err.response?.status === 401) {
+        localStorage.removeItem(STORAGE_KEYS.ACCESS_TOKEN);
+      }
       return rejectWithValue(err.response?.data?.message || 'Failed to fetch profile');
     }
   }

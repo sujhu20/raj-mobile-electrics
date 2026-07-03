@@ -69,17 +69,21 @@ export default function CheckoutPage() {
         ...data, label: 'Home', country: 'Nepal', isDefault: addresses.length === 0,
       });
       console.log('[Checkout] POST /addresses response:', res);
-      const newAddress = res.data;
-      const newAddressId: string | undefined = newAddress?.id;
-      console.log('[Checkout] new address id:', newAddressId);
+      const newAddress = res?.data;
+      if (newAddress) {
+        const newAddressId: string | undefined = newAddress.id;
+        console.log('[Checkout] new address id:', newAddressId);
 
-      // Update addresses list using functional form (avoids stale closure)
-      setAddresses((prev: any[]) => [...prev, newAddress]);
-      // Set the newly created address as selected
-      if (newAddressId) setSelectedAddress(newAddressId);
-      setShowNewAddress(false);
-      reset();
-      toast.success('Address added');
+        // Update addresses list using functional form (avoids stale closure)
+        setAddresses((prev: any[]) => [...prev, newAddress]);
+        // Set the newly created address as selected
+        if (newAddressId) setSelectedAddress(newAddressId);
+        setShowNewAddress(false);
+        reset();
+        toast.success('Address added');
+      } else {
+        toast.error('Failed to parse added address response');
+      }
     } catch (err) {
       console.error('[Checkout] onAddAddress error:', err);
       toast.error('Failed to add address');
