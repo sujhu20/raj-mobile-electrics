@@ -149,11 +149,11 @@ export default function HomePage() {
 
   return (
     <div>
-      {/* Hero Section — premium light theme with soft gold blurs */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-amber-50/30 via-white to-slate-50/50 border-b border-surface-200/60">
+      {/* Hero Section — premium flat white theme */}
+      <section className="relative overflow-hidden bg-white border-b border-surface-200/60">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute -top-40 -right-40 w-96 h-96 bg-[#D99100]/5 rounded-full blur-3xl" />
-          <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-amber-600/5 rounded-full blur-3xl" />
+          <div className="absolute -top-40 -right-40 w-96 h-96 bg-primary-500/[0.04] rounded-full blur-3xl" />
+          <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-primary-500/[0.02] rounded-full blur-3xl" />
         </div>
         <div className="max-w-7xl mx-auto px-4 py-20 md:py-28 relative z-10">
           <div className="grid md:grid-cols-2 gap-12 items-center">
@@ -196,9 +196,9 @@ export default function HomePage() {
               className="hidden md:flex justify-center"
             >
               <div className="relative">
-                <div className="w-80 h-80 rounded-full bg-gradient-to-br from-primary-500/10 to-amber-500/5 blur-xl absolute" />
-                <div className="relative animate-float flex items-center justify-center bg-white p-6 rounded-3xl border border-surface-200/80 shadow-card">
-                  <img src="/logo.jpg" alt="Raj Mobile & Electrics Logo" className="w-64 h-64 rounded-2xl object-cover" />
+                <div className="w-80 h-80 rounded-full bg-primary-500/[0.04] blur-xl absolute" />
+                <div className="relative animate-float flex items-center justify-center bg-surface-50 p-6 rounded-3xl border border-surface-200/60 shadow-sm">
+                  <img src="/logo.jpg" alt="Raj Mobile & Electrics Logo" className="w-64 h-64 rounded-2xl object-cover shadow-sm bg-white" />
                 </div>
               </div>
             </motion.div>
