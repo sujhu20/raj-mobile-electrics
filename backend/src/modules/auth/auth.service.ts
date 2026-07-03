@@ -118,7 +118,7 @@ export class AuthService {
    */
   async login(data: LoginInput) {
     console.log("LOGIN Service Started");
-    console.log("LOGIN STEP 1 findUnique START");
+    console.log("LOGIN STEP 1 findUnique START for email:", JSON.stringify(data.email));
     const user = await prisma.user.findUnique({
       where: { email: data.email },
       select: {
@@ -133,7 +133,7 @@ export class AuthService {
         avatar: true,
       },
     });
-    console.log("LOGIN STEP 1 findUnique END");
+    console.log("LOGIN STEP 1 findUnique END, user found:", user ? JSON.stringify(user.email) : 'NULL');
 
     if (!user || !user.password) {
       throw new AppError('Invalid email or password', 401);
