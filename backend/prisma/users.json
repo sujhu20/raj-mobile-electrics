@@ -1,0 +1,29 @@
+[
+  {
+    "email": "admin@rajmobileandelectrics.com",
+    "password": "AdminPassword123!",
+    "firstName": "Store",
+    "lastName": "Admin",
+    "role": "ADMIN",
+    "phone": "+9779800000001",
+    "isVerified": true
+  },
+  {
+    "email": "customer1@example.com",
+    "password": "CustomerPassword123!",
+    "firstName": "John",
+    "lastName": "Doe",
+    "role": "CUSTOMER",
+    "phone": "+9779800000002",
+    "isVerified": true
+  },
+  {
+    "email": "customer2@example.com",
+    "password": "CustomerPassword123!",
+    "firstName": "Jane",
+    "lastName": "Smith",
+    "role": "CUSTOMER",
+    "phone": "+9779800000003",
+    "isVerified": true
+  }
+]

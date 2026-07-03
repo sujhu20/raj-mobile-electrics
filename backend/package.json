@@ -12,6 +12,7 @@
     "prisma:migrate:prod": "prisma migrate deploy",
     "prisma:studio": "prisma studio",
     "prisma:seed": "tsx prisma/seed.ts",
+    "prisma:seed:users": "node prisma/seed-users.js",
     "lint": "eslint src --ext .ts",
     "typecheck": "tsc --noEmit"
   },
