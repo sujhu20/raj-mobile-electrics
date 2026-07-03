@@ -73,7 +73,26 @@ export default function AdminProductFormPage() {
   useEffect(() => { document.title = `${isEditing ? 'Edit' : 'New'} Product — ${APP_NAME} Admin`; }, [isEditing]);
 
   useEffect(() => {
-    api.get(ENDPOINTS.CATEGORIES.LIST).then(r => setCategories(r.data.data)).catch(() => {});
+    const flattenCategories = (list: any[]): any[] => {
+      const flat: any[] = [];
+      const recurse = (arr: any[], prefix = '') => {
+        arr.forEach(c => {
+          flat.push({ id: c.id, name: prefix + c.name, slug: c.slug });
+          if (Array.isArray(c.children) && c.children.length > 0) {
+            recurse(c.children, `${prefix}${c.name} > `);
+          }
+        });
+      };
+      recurse(list);
+      return flat;
+    };
+
+    api.get(ENDPOINTS.CATEGORIES.LIST)
+      .then(r => {
+        const raw = Array.isArray(r.data?.data) ? r.data.data : [];
+        setCategories(flattenCategories(raw));
+      })
+      .catch(() => {});
     if (isEditing && id) {
       setLoading(true);
       api.get(ENDPOINTS.PRODUCTS.ADMIN_DETAIL(id)).then(r => {
