@@ -5,6 +5,7 @@ import { asyncHandler } from '../../utils/asyncHandler';
 
 export class AuthController {
   register = asyncHandler(async (req: Request, res: Response) => {
+    console.log("REGISTER Controller Started");
     console.log('[CONTROLLER] register - calling authService.register');
     const result = await authService.register(req.body);
     console.log('[CONTROLLER] register - authService.register returned');
@@ -17,15 +18,17 @@ export class AuthController {
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
 
-    console.log('[CONTROLLER] register - sending response');
+    console.log("REGISTER Before response");
     ApiResponse.created(res, {
       user: result.user,
       accessToken: result.accessToken,
     }, 'Registration successful. Please verify your email.');
-    console.log('[CONTROLLER] register - response sent');
+    console.log("REGISTER After response");
+    console.log("REGISTER Controller Finished");
   });
 
   login = asyncHandler(async (req: Request, res: Response) => {
+    console.log("LOGIN Controller Started");
     const result = await authService.login(req.body);
 
     res.cookie('refreshToken', result.refreshToken, {
@@ -35,10 +38,13 @@ export class AuthController {
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
+    console.log("LOGIN Before response");
     ApiResponse.success(res, {
       user: result.user,
       accessToken: result.accessToken,
     }, 'Login successful');
+    console.log("LOGIN After response");
+    console.log("LOGIN Controller Finished");
   });
 
   googleLogin = asyncHandler(async (req: Request, res: Response) => {

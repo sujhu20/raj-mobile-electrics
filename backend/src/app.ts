@@ -38,12 +38,25 @@ app.set('trust proxy', 1);
 
 // Global request logger
 app.use((req, res, next) => {
-  console.log("REQUEST:", req.method, req.originalUrl);
+  console.log("================================");
+  console.log("REQUEST START:", new Date().toISOString());
+  console.log("METHOD:", req.method);
+  console.log("URL:", req.originalUrl);
+  console.log("HEADERS:", JSON.stringify(req.headers));
+  console.log("================================");
   next();
 });
 
 // Security headers
+app.use((req, res, next) => {
+  console.log("[MIDDLEWARE] Entering helmet");
+  next();
+});
 app.use(helmet());
+app.use((req, res, next) => {
+  console.log("[MIDDLEWARE] Exiting helmet");
+  next();
+});
 
 // CORS configuration supporting dynamic Vercel, localhost, and custom domain origins
 const allowedOrigins = [
@@ -52,6 +65,10 @@ const allowedOrigins = [
   'http://localhost:3000',
 ];
 
+app.use((req, res, next) => {
+  console.log("[MIDDLEWARE] Entering cors");
+  next();
+});
 app.use(
   cors({
     origin: (origin, callback) => {
@@ -77,16 +94,53 @@ app.use(
     allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
   })
 );
+app.use((req, res, next) => {
+  console.log("[MIDDLEWARE] Exiting cors");
+  next();
+});
 
 // Rate limiting
+app.use((req, res, next) => {
+  console.log("[MIDDLEWARE] Entering generalLimiter");
+  next();
+});
 app.use('/api/', generalLimiter);
+app.use((req, res, next) => {
+  console.log("[MIDDLEWARE] Exiting generalLimiter");
+  next();
+});
 
 // Body parsing
+app.use((req, res, next) => {
+  console.log("[MIDDLEWARE] Entering express.json");
+  next();
+});
 app.use(express.json({ limit: '10mb' }));
+app.use((req, res, next) => {
+  console.log("[MIDDLEWARE] Exiting express.json. Body keys are:", Object.keys(req.body || {}));
+  next();
+});
+
+app.use((req, res, next) => {
+  console.log("[MIDDLEWARE] Entering express.urlencoded");
+  next();
+});
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+app.use((req, res, next) => {
+  console.log("[MIDDLEWARE] Exiting express.urlencoded");
+  next();
+});
 
 // Cookie parsing
+app.use((req, res, next) => {
+  console.log("[MIDDLEWARE] Entering cookieParser");
+  next();
+});
 app.use(cookieParser());
+app.use((req, res, next) => {
+  console.log("[MIDDLEWARE] Exiting cookieParser");
+  next();
+});
 
 // ============================================================================
 // HEALTH / LIVENESS / READINESS ENDPOINTS

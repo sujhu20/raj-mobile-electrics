@@ -15,8 +15,8 @@ import {
 
 const router = Router();
 
-router.post('/register', authLimiter, validate({ body: registerSchema }), authController.register);
-router.post('/login', authLimiter, validate({ body: loginSchema }), authController.login);
+router.post('/register', (req, res, next) => { console.log("REGISTER ROUTE HIT"); next(); }, authLimiter, validate({ body: registerSchema }), authController.register);
+router.post('/login', (req, res, next) => { console.log("LOGIN ROUTE HIT"); next(); }, authLimiter, validate({ body: loginSchema }), authController.login);
 router.post('/google', authLimiter, validate({ body: googleLoginSchema }), authController.googleLogin);
 router.post('/refresh', authController.refreshToken);
 router.post('/logout', authenticate, authController.logout);

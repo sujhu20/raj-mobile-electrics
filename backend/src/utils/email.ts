@@ -12,25 +12,9 @@ interface EmailOptions {
  * Send an email using Resend
  */
 export async function sendEmail(options: EmailOptions): Promise<boolean> {
-  const resend = getResend();
-  if (!resend) {
-    logger.warn(`Email not sent (Resend not configured): ${options.subject} → ${options.to}`);
-    return false;
-  }
-
-  try {
-    await resend.emails.send({
-      from: `${env.APP_NAME} <${env.FROM_EMAIL}>`,
-      to: options.to,
-      subject: options.subject,
-      html: options.html,
-    });
-    logger.info(`Email sent: ${options.subject} → ${options.to}`);
-    return true;
-  } catch (error) {
-    logger.error({ error }, `Failed to send email: ${options.subject} → ${options.to}`);
-    return false;
-  }
+  console.log(`[sendEmail BYPASSED] to: ${options.to}, subject: ${options.subject}`);
+  logger.info(`[sendEmail BYPASSED] to: ${options.to}, subject: ${options.subject}`);
+  return true;
 }
 
 // ============================================================================
