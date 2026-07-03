@@ -12,9 +12,9 @@
   --color-primary-200: #fde68a;
   --color-primary-300: #fcd34d;
   --color-primary-400: #fbbf24;
-  --color-primary-500: #D99000;
-  --color-primary-600: #D99000;
-  --color-primary-700: #8B5E00;
+  --color-primary-500: #D99100;
+  --color-primary-600: #C98500;
+  --color-primary-700: #9A6500;
   --color-primary-800: #78350f;
   --color-primary-900: #451a03;
 
@@ -31,30 +31,30 @@
   --color-success-500: #22C55E;
   --color-success-600: #16a34a;
   --color-warning-50: #fffbeb;
-  --color-warning-500: #f59e0b;
+  --color-warning-500: #F59E0B;
   --color-warning-600: #d97706;
   --color-danger-50: #fef2f2;
   --color-danger-500: #EF4444;
   --color-danger-600: #dc2626;
 
-  --color-surface-50: #F8F8F8;
-  --color-surface-100: #F1F1F1;
+  --color-surface-50: #F8F9FB;
+  --color-surface-100: #F1F3F6;
   --color-surface-200: #ECECEC;
   --color-surface-300: #cbd5e1;
   --color-surface-400: #94a3b8;
-  --color-surface-500: #666666;
+  --color-surface-500: #6B7280;
   --color-surface-600: #475569;
   --color-surface-700: #334155;
   --color-surface-800: #1e293b;
-  --color-surface-900: #111111;
+  --color-surface-900: #111827;
   --color-surface-950: #0f172a;
 
   --font-sans: 'Poppins', system-ui, -apple-system, sans-serif;
 
-  --shadow-card: 0 4px 20px -2px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
-  --shadow-card-hover: 0 20px 40px -8px rgba(217,144,0,0.12), 0 4px 16px -2px rgba(0,0,0,0.05);
-  --shadow-lg: 0 10px 25px -5px rgba(0,0,0,0.06), 0 4px 10px -5px rgba(0,0,0,0.03);
-  --shadow-xl: 0 20px 50px -10px rgba(0,0,0,0.12);
+  --shadow-card: 0 4px 20px -2px rgba(0,0,0,0.03), 0 2px 4px -1px rgba(0,0,0,0.02);
+  --shadow-card-hover: 0 20px 40px -8px rgba(217,145,0,0.1), 0 4px 16px -2px rgba(0,0,0,0.03);
+  --shadow-lg: 0 10px 25px -5px rgba(0,0,0,0.05), 0 4px 10px -5px rgba(0,0,0,0.02);
+  --shadow-xl: 0 20px 50px -10px rgba(0,0,0,0.1);
 
   --radius-sm: 0.375rem;
   --radius-md: 0.5rem;
@@ -72,19 +72,19 @@
 :root {
   --bg-page: #FFFFFF;
   --bg-card: #FFFFFF;
-  --bg-input: #F8F8F8;
+  --bg-input: #FAFAFA;
   --border-subtle: #ECECEC;
   --border-medium: #cbd5e1;
-  --text-primary: #111111;
-  --text-secondary: #666666;
-  --text-muted: #8b5e00;
-  --text-placeholder: #a8a29e;
+  --text-primary: #111827;
+  --text-secondary: #6B7280;
+  --text-muted: #9CA3AF;
+  --text-placeholder: #9CA3AF;
   --glass-bg: rgba(255,255,255,0.85);
   --glass-border: rgba(255,255,255,0.8);
   --header-bg: rgba(255,255,255,0.95);
-  --shadow-sm: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.02);
-  --shadow-md: 0 4px 12px rgba(0,0,0,0.05), 0 2px 4px rgba(0,0,0,0.02);
-  --shadow-hover: 0 8px 25px -5px rgba(217,144,0,0.1), 0 4px 10px -3px rgba(0,0,0,0.04);
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.03);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.04);
+  --shadow-hover: 0 8px 25px -5px rgba(217,145,0,0.08), 0 4px 10px -3px rgba(0,0,0,0.03);
 }
 
 /* Dark Mode (optional) */
