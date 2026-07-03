@@ -96,7 +96,16 @@ export default function AdminProductFormPage() {
   };
 
   const removeImage = (index: number) => setImages(images.filter((_, i) => i !== index));
-  const removeExistingImage = (imgId: string) => setExistingImages(existingImages.filter(i => i.id !== imgId));
+  const removeExistingImage = async (imgId: string) => {
+    if (!id) return;
+    try {
+      await api.delete(ENDPOINTS.PRODUCTS.ADMIN_DELETE_IMAGE(id, imgId));
+      setExistingImages(prev => prev.filter(i => i.id !== imgId));
+      toast.success('Image deleted');
+    } catch {
+      toast.error('Failed to delete image');
+    }
+  };
 
   const addSpecRow = () => setSpecs([...specs, { key: '', value: '' }]);
   const removeSpecRow = (index: number) => setSpecs(specs.filter((_, i) => i !== index));

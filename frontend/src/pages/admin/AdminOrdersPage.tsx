@@ -13,6 +13,7 @@ export default function AdminOrdersPage() {
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('');
   const [search, setSearch] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const [page, setPage] = useState(1);
   const [_pagination, setPagination] = useState<PaginationMeta | null>(null);
@@ -59,10 +60,10 @@ export default function AdminOrdersPage() {
             </button>
           ))}
         </div>
-        <form onSubmit={(e) => { e.preventDefault(); setPage(1); fetchOrders(); }} className="flex gap-2 ml-auto">
+        <form onSubmit={(e) => { e.preventDefault(); setPage(1); setSearch(searchQuery.trim()); }} className="flex gap-2 ml-auto">
           <div className="relative">
             <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-surface-700/40" size={14} />
-            <input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Order # or email"
+            <input value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} placeholder="Order # or email"
               className="h-9 pl-8 pr-3 rounded-lg border border-surface-200 text-xs outline-none focus:border-primary-400 w-48" />
           </div>
         </form>

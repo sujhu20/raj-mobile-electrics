@@ -203,9 +203,13 @@ export default function ProductDetailPage() {
               {(product?.reviews?.length ?? 0) > 0 ? product.reviews.map((review: any) => (
                 <div key={review.id} className="py-4 border-b border-surface-100 last:border-0">
                   <div className="flex items-center gap-3 mb-2">
-                    <div className="w-9 h-9 rounded-full gradient-primary flex items-center justify-center text-white text-sm font-bold">{review.user.firstName[0]}</div>
+                    <div className="w-9 h-9 rounded-full gradient-primary flex items-center justify-center text-white text-sm font-bold">
+                      {review.user?.firstName?.[0] || 'A'}
+                    </div>
                     <div>
-                      <p className="font-semibold text-sm">{review.user.firstName} {review.user.lastName}</p>
+                      <p className="font-semibold text-sm">
+                        {review.user ? `${review.user.firstName} ${review.user.lastName}` : 'Anonymous Customer'}
+                      </p>
                       <div className="flex items-center gap-1">{[...Array(5)].map((_, i) => <FiStar key={i} size={12} className={i < review.rating ? 'text-warning-500 fill-warning-500' : 'text-surface-200'} />)}</div>
                     </div>
                     {review.isVerified && <span className="px-2 py-0.5 bg-success-500/10 text-success-600 text-[10px] font-semibold rounded-full">✓ Verified</span>}

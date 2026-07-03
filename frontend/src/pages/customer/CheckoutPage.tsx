@@ -61,7 +61,7 @@ export default function CheckoutPage() {
       console.log('[Checkout] Defensive auto-select:', pick);
       setSelectedAddress(pick);
     }
-  }, [addresses]);
+  }, [addresses, selectedAddress]);
 
   const onAddAddress = async (data: AddressForm) => {
     try {

@@ -11,6 +11,7 @@ export default function AdminUsersPage() {
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
   const [page, setPage] = useState(1);
   const [_pagination, setPagination] = useState<PaginationMeta | null>(null);
 
@@ -42,8 +43,8 @@ export default function AdminUsersPage() {
     <div className="max-w-7xl mx-auto">
       <h1 className="text-2xl font-bold mb-6">Users</h1>
 
-      <form onSubmit={(e) => { e.preventDefault(); setPage(1); }} className="flex gap-2 mb-6 max-w-md">
-        <div className="relative flex-1"><FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-surface-700/40" size={16} /><input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search by name or email" className="w-full h-10 pl-10 pr-4 rounded-xl border border-surface-200 text-sm outline-none focus:border-primary-400" /></div>
+      <form onSubmit={(e) => { e.preventDefault(); setPage(1); setSearch(searchQuery.trim()); }} className="flex gap-2 mb-6 max-w-md">
+        <div className="relative flex-1"><FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-surface-700/40" size={16} /><input value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} placeholder="Search by name or email" className="w-full h-10 pl-10 pr-4 rounded-xl border border-surface-200 text-sm outline-none focus:border-primary-400" /></div>
         <button type="submit" className="px-4 h-10 rounded-xl bg-surface-900 text-white text-sm font-medium">Search</button>
       </form>
 

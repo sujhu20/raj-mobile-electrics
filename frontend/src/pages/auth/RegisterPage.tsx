@@ -129,7 +129,7 @@ export default function RegisterPage() {
             {/* Confirm Password */}
             <div>
               <label className="block text-sm font-medium text-surface-700 mb-1.5">Confirm Password</label>
-              <input {...register('confirmPassword')} type="password" placeholder="Confirm your password" className="w-full h-12 px-4 rounded-xl border border-surface-200 bg-surface-50 focus:border-primary-400 focus:ring-2 focus:ring-primary-100 outline-none transition text-sm" />
+              <input {...register('confirmPassword')} type={showPassword ? 'text' : 'password'} placeholder="Confirm your password" className="w-full h-12 px-4 rounded-xl border border-surface-200 bg-surface-50 focus:border-primary-400 focus:ring-2 focus:ring-primary-100 outline-none transition text-sm" />
               {errors.confirmPassword && <p className="text-danger-500 text-xs mt-1">{errors.confirmPassword.message}</p>}
             </div>
 

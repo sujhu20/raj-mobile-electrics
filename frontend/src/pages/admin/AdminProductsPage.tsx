@@ -14,6 +14,7 @@ export default function AdminProductsPage() {
   const [pagination, setPagination] = useState<PaginationMeta | null>(null);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
   const [page, setPage] = useState(1);
 
   const fetchProducts = useCallback(async () => {
@@ -32,7 +33,11 @@ export default function AdminProductsPage() {
   useEffect(() => { fetchProducts(); }, [fetchProducts]);
   useEffect(() => { document.title = `Products — ${APP_NAME} Admin`; }, []);
 
-  const handleSearch = (e: React.FormEvent) => { e.preventDefault(); setPage(1); };
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    setSearch(searchQuery.trim());
+    setPage(1);
+  };
 
   const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
   const [deleteConfirmName, setDeleteConfirmName] = useState<string>('');
@@ -61,7 +66,7 @@ export default function AdminProductsPage() {
       <form onSubmit={handleSearch} className="flex gap-2 mb-6">
         <div className="relative flex-1 max-w-md">
           <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-surface-700/40" size={16} />
-          <input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search products..."
+          <input value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} placeholder="Search products..."
             className="w-full h-10 pl-10 pr-4 rounded-xl border border-surface-200 text-sm outline-none focus:border-primary-400" />
         </div>
         <button type="submit" className="px-4 h-10 rounded-xl bg-surface-900 text-white text-sm font-medium">Search</button>

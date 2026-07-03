@@ -75,8 +75,13 @@ export default function SearchPage() {
                 <div className="flex items-center gap-1 mt-1">{[...Array(5)].map((_, i) => <FiStar key={i} size={11} className={i < Math.floor(product.avgRating) ? 'text-warning-500 fill-warning-500' : 'text-surface-200'} />)}</div>
                 <div className="flex items-center justify-between mt-2">
                   <span className="font-bold">{CURRENCY} {Number(product.price).toLocaleString()}</span>
-                  <button onClick={() => dispatch(addToCart({ productId: product.id }))} className="w-8 h-8 rounded-lg gradient-primary text-white flex items-center justify-center"><FiShoppingCart size={14} /></button>
+                  <button onClick={() => dispatch(addToCart({ productId: product.id }))} disabled={product.stock === 0}
+                    className={`w-8 h-8 rounded-lg flex items-center justify-center transition ${product.stock === 0 ? 'bg-surface-100 text-surface-700/30 cursor-not-allowed' : 'gradient-primary text-white hover:opacity-90'}`}>
+                    <FiShoppingCart size={14} />
+                  </button>
                 </div>
+                {product.stock === 0 && <p className="text-[10px] text-danger-500 font-medium mt-1">Out of Stock</p>}
+                {product.stock > 0 && product.stock <= 5 && <p className="text-[10px] text-warning-600 font-medium mt-1">Only {product.stock} left!</p>}
               </div>
             </motion.div>
           ))}

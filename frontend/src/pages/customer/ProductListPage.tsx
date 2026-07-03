@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { FiFilter, FiX, FiStar, FiShoppingCart, FiHeart } from 'react-icons/fi';
 import api from '../../config/api';
 import { CURRENCY, BRANDS } from '../../config/constants';
@@ -290,6 +290,103 @@ export default function ProductListPage() {
           )}
         </div>
       </div>
+
+      {/* Mobile Filters Drawer */}
+      <AnimatePresence>
+        {showFilters && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black/40 z-50 lg:hidden"
+              onClick={() => setShowFilters(false)}
+            />
+            <motion.aside
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
+              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+              className="fixed right-0 top-0 bottom-0 w-80 max-w-full bg-white z-50 p-6 overflow-y-auto lg:hidden shadow-2xl flex flex-col"
+            >
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="font-bold text-lg">Filters</h2>
+                <button onClick={() => setShowFilters(false)} className="p-1.5 rounded-lg hover:bg-slate-100 transition text-slate-700">
+                  <FiX size={20} />
+                </button>
+              </div>
+
+              <div className="flex-1 space-y-6 overflow-y-auto pr-1">
+                {/* Categories */}
+                <div className="bg-white rounded-xl border border-surface-200/60 p-4">
+                  <h3 className="font-semibold text-sm mb-3">Category</h3>
+                  <div className="space-y-1.5 max-h-48 overflow-y-auto">
+                    <button onClick={() => { updateFilter('category', ''); setShowFilters(false); }}
+                      className={`w-full text-left px-3 py-2 rounded-lg text-sm transition ${!currentCategory ? 'bg-primary-50 text-primary-700 font-medium' : 'hover:bg-surface-50'}`}>
+                      All Categories
+                    </button>
+                    {categories.map((cat: any) => (
+                      <button key={cat.id} onClick={() => { updateFilter('category', cat.slug); setShowFilters(false); }}
+                        className={`w-full text-left px-3 py-2 rounded-lg text-sm transition ${currentCategory === cat.slug ? 'bg-primary-50 text-primary-700 font-medium' : 'hover:bg-surface-50'}`}>
+                        {cat.name}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Brands */}
+                <div className="bg-white rounded-xl border border-surface-200/60 p-4">
+                  <h3 className="font-semibold text-sm mb-3">Brand</h3>
+                  <div className="space-y-1.5 max-h-48 overflow-y-auto">
+                    <button onClick={() => { updateFilter('brand', ''); setShowFilters(false); }}
+                      className={`w-full text-left px-3 py-2 rounded-lg text-sm transition ${!currentBrand ? 'bg-primary-50 text-primary-700 font-medium' : 'hover:bg-surface-50'}`}>
+                      All Brands
+                    </button>
+                    {brands.map(brand => (
+                      <button key={brand} onClick={() => { updateFilter('brand', brand); setShowFilters(false); }}
+                        className={`w-full text-left px-3 py-2 rounded-lg text-sm transition ${currentBrand === brand ? 'bg-primary-50 text-primary-700 font-medium' : 'hover:bg-surface-50'}`}>
+                        {brand}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Price Range */}
+                <div className="bg-white rounded-xl border border-surface-200/60 p-4">
+                  <h3 className="font-semibold text-sm mb-3">Price Range</h3>
+                  <div className="flex gap-2">
+                    <input type="number" placeholder="Min" value={currentMinPrice}
+                      onChange={(e) => updateFilter('minPrice', e.target.value)}
+                      className="w-full h-10 px-3 rounded-lg border border-surface-200 text-sm outline-none focus:border-primary-400" />
+                    <input type="number" placeholder="Max" value={currentMaxPrice}
+                      onChange={(e) => updateFilter('maxPrice', e.target.value)}
+                      className="w-full h-10 px-3 rounded-lg border border-surface-200 text-sm outline-none focus:border-primary-400" />
+                  </div>
+                  <div className="flex flex-wrap gap-1.5 mt-3">
+                    {[{ label: 'Under 20K', min: '', max: '20000' }, { label: '20K-50K', min: '20000', max: '50000' }, { label: '50K-100K', min: '50000', max: '100000' }, { label: '100K+', min: '100000', max: '' }].map(r => (
+                      <button key={r.label} onClick={() => { updateFilter('minPrice', r.min); updateFilter('maxPrice', r.max); setShowFilters(false); }}
+                        className="px-3 py-1.5 rounded-lg bg-surface-50 text-xs font-medium hover:bg-primary-50 hover:text-primary-700 transition">
+                        {r.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-6 pt-4 border-t border-surface-100 flex gap-3">
+                {hasActiveFilters && (
+                  <button onClick={() => { clearFilters(); setShowFilters(false); }} className="flex-1 py-2.5 rounded-xl border border-danger-200 text-danger-500 font-semibold text-sm hover:bg-danger-50 transition">
+                    Clear All
+                  </button>
+                )}
+                <button onClick={() => setShowFilters(false)} className="flex-1 py-2.5 rounded-xl gradient-primary text-white font-semibold text-sm hover:opacity-90 transition">
+                  Apply Filters
+                </button>
+              </div>
+            </motion.aside>
+          </>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

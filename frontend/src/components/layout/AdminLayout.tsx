@@ -285,7 +285,7 @@ export default function AdminLayout() {
   const handleToggle = useCallback(() => {
     setCollapsed((prev) => {
       const next = !prev;
-      try { localStorage.setItem(STORAGE_KEYS.SIDEBAR_COLLAPSED, String(next)); } catch {}
+      try { localStorage.setItem(STORAGE_KEYS.SIDEBAR_COLLAPSED, String(next)); } catch (e) { console.warn(e); }
       return next;
     });
   }, []);

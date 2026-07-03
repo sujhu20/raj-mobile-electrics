@@ -42,6 +42,26 @@ export default function ProfilePage() {
   };
 
   const handleAddAddress = async () => {
+    if (!addressForm.fullName || addressForm.fullName.trim().length < 2) {
+      toast.error('Full Name must be at least 2 characters');
+      return;
+    }
+    if (!addressForm.phone || addressForm.phone.trim().length < 7) {
+      toast.error('Phone must be at least 7 digits');
+      return;
+    }
+    if (!addressForm.street || addressForm.street.trim().length < 3) {
+      toast.error('Street address must be at least 3 characters');
+      return;
+    }
+    if (!addressForm.city || addressForm.city.trim().length < 2) {
+      toast.error('City must be at least 2 characters');
+      return;
+    }
+    if (!addressForm.state || addressForm.state.trim().length < 2) {
+      toast.error('State/Province must be at least 2 characters');
+      return;
+    }
     try {
       const { data } = await api.post('/users/me/addresses', addressForm);
       setAddresses([...addresses, data.data]);
