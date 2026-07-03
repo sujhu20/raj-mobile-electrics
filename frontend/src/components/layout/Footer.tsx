@@ -253,8 +253,8 @@ export default function Footer() {
                 </div>
               </li>
               <li className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center shrink-0">
-                  <FiMail size={15} className="text-blue-600" />
+                <div className="w-8 h-8 rounded-lg bg-primary-100 flex items-center justify-center shrink-0">
+                  <FiMail size={15} className="text-primary-600" />
                 </div>
                 <div>
                   <a

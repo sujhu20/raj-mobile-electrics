@@ -149,41 +149,41 @@ export default function HomePage() {
 
   return (
     <div>
-      {/* Hero Section — sky blue background, dark text */}
-      <section className="relative overflow-hidden" style={{ background: '#DBEAFE' }}>
+      {/* Hero Section — premium dark background with gold accents */}
+      <section className="relative overflow-hidden bg-[#111111] text-white border-b border-neutral-950">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute -top-40 -right-40 w-96 h-96 bg-blue-300/20 rounded-full blur-3xl" />
-          <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-sky-200/30 rounded-full blur-3xl" />
+          <div className="absolute -top-40 -right-40 w-96 h-96 bg-[#D99000]/15 rounded-full blur-3xl" />
+          <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-amber-600/10 rounded-full blur-3xl" />
         </div>
-        <div className="max-w-7xl mx-auto px-4 py-16 md:py-24 relative z-10">
-          <div className="grid md:grid-cols-2 gap-8 items-center">
+        <div className="max-w-7xl mx-auto px-4 py-20 md:py-28 relative z-10">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6 }}
             >
-              <span className="inline-block px-4 py-1.5 rounded-full bg-blue-600/10 border border-blue-300 text-blue-800 text-sm font-semibold mb-4">
+              <span className="inline-block px-4 py-1.5 rounded-full bg-[#D99000]/10 border border-[#D99000]/30 text-[#D99000] text-sm font-semibold mb-6">
                 🎉 Grand Opening Sale — Up to 40% Off
               </span>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-gray-900">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight tracking-tight text-white font-sans">
                 Your Trusted
-                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-600">
+                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-[#D99000] to-amber-500 mt-2">
                   Raj Mobile & Electronics
                 </span>
               </h1>
-              <p className="mt-4 text-lg text-gray-700 max-w-lg">
+              <p className="mt-6 text-lg text-neutral-300 max-w-lg font-light leading-relaxed font-sans">
                 Your Trusted Raj Mobile & Electronics Store. Explore top brands at the best prices with genuine warranty in Bhaktapur, Nepal.
               </p>
-              <div className="flex flex-wrap gap-3 mt-8">
+              <div className="flex flex-wrap gap-4 mt-10">
                 <Link
                   to="/products"
-                  className="px-8 py-3.5 rounded-xl bg-blue-600 text-white font-semibold hover:bg-blue-700 transition shadow-lg shadow-blue-200"
+                  className="px-8 py-3.5 rounded-xl bg-gradient-to-r from-[#D99000] to-[#8B5E00] text-white font-semibold hover:opacity-95 transition-opacity shadow-lg shadow-amber-900/30"
                 >
                   Shop Now
                 </Link>
                 <Link
                   to="/products?sort=popular"
-                  className="px-8 py-3.5 rounded-xl bg-white border border-blue-300 text-gray-800 font-semibold hover:bg-blue-50 transition shadow-sm"
+                  className="px-8 py-3.5 rounded-xl bg-transparent border border-neutral-700 text-white font-semibold hover:bg-white/5 transition shadow-sm"
                 >
                   🔥 Best Sellers
                 </Link>
@@ -196,9 +196,9 @@ export default function HomePage() {
               className="hidden md:flex justify-center"
             >
               <div className="relative">
-                <div className="w-80 h-80 rounded-full bg-gradient-to-br from-blue-300/40 to-cyan-200/30 blur-xl absolute" />
-                <div className="relative animate-float flex items-center justify-center bg-white p-4 rounded-3xl border border-blue-200 shadow-2xl shadow-blue-100">
-                  <img src="/logo.jpg" alt="Raj Mobile & Electrics Logo" className="w-64 h-64 rounded-2xl object-cover" />
+                <div className="w-80 h-80 rounded-full bg-gradient-to-br from-[#D99000]/35 to-amber-500/10 blur-xl absolute" />
+                <div className="relative animate-float flex items-center justify-center bg-[#1c1c1c] p-6 rounded-3xl border border-neutral-800 shadow-2xl shadow-black/80">
+                  <img src="/logo.jpg" alt="Raj Mobile & Electrics Logo" className="w-64 h-64 rounded-2xl object-cover" style={{ filter: 'sepia(0.6) saturate(1.4) brightness(0.9)' }} />
                 </div>
               </div>
             </motion.div>

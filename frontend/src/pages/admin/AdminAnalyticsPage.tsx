@@ -42,7 +42,7 @@ export default function AdminAnalyticsPage() {
 
   const stats = dashboard ? [
     { label: 'Total Revenue', value: `${CURRENCY} ${dashboard.revenue.total.toLocaleString()}`, change: `${dashboard.revenue.growth > 0 ? '+' : ''}${dashboard.revenue.growth}%`, icon: FiDollarSign, iconBg: 'bg-emerald-100', iconColor: 'text-emerald-700' },
-    { label: 'Monthly Revenue', value: `${CURRENCY} ${dashboard.revenue.monthly.toLocaleString()}`, change: 'This month', icon: FiTrendingUp, iconBg: 'bg-blue-100', iconColor: 'text-blue-700' },
+    { label: 'Monthly Revenue', value: `${CURRENCY} ${dashboard.revenue.monthly.toLocaleString()}`, change: 'This month', icon: FiTrendingUp, iconBg: 'bg-primary-100', iconColor: 'text-primary-700' },
     { label: 'Total Orders', value: dashboard.orders.total.toLocaleString(), change: `${dashboard.orders.pending} pending`, icon: FiPackage, iconBg: 'bg-violet-100', iconColor: 'text-violet-700' },
     { label: 'Customers', value: dashboard.users.total.toLocaleString(), change: '', icon: FiUsers, iconBg: 'bg-amber-100', iconColor: 'text-amber-700' },
   ] : [];
@@ -94,7 +94,7 @@ export default function AdminAnalyticsPage() {
                       initial={{ width: 0 }}
                       animate={{ width: `${pct}%` }}
                       transition={{ delay: i * 0.05, duration: 0.5 }}
-                      className="h-full bg-blue-600 rounded-lg flex items-center justify-end px-2 min-w-[2px]"
+                      className="h-full bg-primary-600 rounded-lg flex items-center justify-end px-2 min-w-[2px]"
                     >
                       {pct > 20 && (
                         <span className="text-[10px] text-white font-semibold">{CURRENCY} {m.revenue.toLocaleString()}</span>
@@ -121,7 +121,7 @@ export default function AdminAnalyticsPage() {
               {topProducts.map((p, i) => (
                 <div key={p.id} className="flex items-center gap-3">
                   <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${
-                    i < 3 ? 'bg-blue-600 text-white' : 'bg-slate-100 text-slate-600'
+                    i < 3 ? 'bg-primary-600 text-white' : 'bg-slate-100 text-slate-600'
                   }`}>{i + 1}</span>
                   <img src={p.images?.[0]?.url || 'https://via.placeholder.com/32'} alt="" className="w-9 h-9 rounded-lg object-contain bg-slate-50 border border-slate-100" />
                   <div className="flex-1 min-w-0">

@@ -120,14 +120,14 @@ const AdminSidebar = memo(function AdminSidebar({
                 aria-current={active ? 'page' : undefined}
                 className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
                   active
-                    ? 'bg-blue-50 text-blue-900 border border-blue-200'
+                    ? 'bg-primary-50 text-primary-900 border border-primary-200'
                     : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
                 }`}
                 title={collapsed && isDesktop ? item.title : undefined}
               >
                 <item.icon
                   size={18}
-                  className={`shrink-0 ${active ? 'text-blue-700' : 'text-slate-500'}`}
+                  className={`shrink-0 ${active ? 'text-primary-700' : 'text-slate-500'}`}
                 />
                 {showLabels && <span>{item.title}</span>}
               </Link>
@@ -195,7 +195,7 @@ const AdminTopbar = memo(function AdminTopbar({
       <div className="flex items-center gap-2 sm:gap-3">
         <Link
           to={ROUTES.HOME}
-          className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-blue-50 text-blue-700 hover:bg-blue-100 border border-blue-200 transition"
+          className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-primary-50 text-primary-700 hover:bg-primary-100 border border-primary-200 transition"
         >
           🛍️ Visit Store
         </Link>

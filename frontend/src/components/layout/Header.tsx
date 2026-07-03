@@ -145,14 +145,23 @@ export default function Header() {
         }`}
         style={{ background: scrolled ? 'var(--header-bg)' : undefined }}
       >
-        {/* Top announcement bar */}
-        <div className="text-xs py-1.5 border-b" style={{ background: '#DBEAFE', borderColor: '#BFDBFE' }}>
+        {/* Top black announcement/info strip */}
+        <div className="text-xs py-2 bg-[#111111] text-white border-b border-neutral-800">
           <div className="max-w-7xl mx-auto px-4 flex justify-between items-center">
-            <span className="font-medium" style={{ color: '#111827' }}>🚚 Free delivery on orders above Rs. 5,000 · Open Mon–Sat 10AM–7PM</span>
-            <div className="hidden md:flex items-center gap-4" style={{ color: '#111827' }}>
-              <Link to="/orders" className="hover:text-primary-700 transition-colors font-medium" style={{ color: '#111827' }}>Track Order</Link>
-              {user?.role === ROLES.ADMIN && (
-                <Link to="/admin" className="hover:text-primary-700 transition-colors font-medium" style={{ color: '#111827' }}>Admin Panel</Link>
+            <span className="font-light tracking-wide flex items-center gap-1.5 opacity-90">
+              📍 Dudhpati-17, Bhaktapur, Nepal
+            </span>
+            <div className="flex items-center gap-5 opacity-90">
+              <Link to="/orders" className="hover:text-primary-500 transition-colors font-medium">Track Order</Link>
+              <a href="tel:+9779800000001" className="hover:text-primary-500 transition-colors font-medium">Support: +977-9800000001</a>
+              {!isAuthenticated ? (
+                <div className="flex items-center gap-3">
+                  <Link to="/login" className="hover:text-primary-500 transition-colors font-medium">Login</Link>
+                  <span className="text-neutral-700">|</span>
+                  <Link to="/register" className="hover:text-primary-500 transition-colors font-medium">Register</Link>
+                </div>
+              ) : (
+                <span className="font-semibold text-primary-500">Welcome, {user?.firstName}</span>
               )}
             </div>
           </div>
@@ -186,7 +195,7 @@ export default function Header() {
                   <span className="text-gradient">{APP_NAME}</span>
                 </span>
                 <p className="text-[10px] text-slate-400 font-medium leading-none mt-0.5 hidden md:block">
-                  Dudhpati, Bhaktapur
+                  Dudhpati-17, Bhaktapur
                 </p>
               </div>
             </Link>

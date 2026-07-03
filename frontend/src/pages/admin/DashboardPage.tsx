@@ -32,8 +32,8 @@ export default function AdminDashboardPage() {
       label: 'Total Revenue',
       value: `${CURRENCY} ${(stats?.revenue?.total ?? 0).toLocaleString()}`,
       icon: FiDollarSign,
-      iconBg: 'bg-blue-100',
-      iconColor: 'text-blue-700',
+      iconBg: 'bg-primary-100',
+      iconColor: 'text-primary-700',
       change: stats?.revenue?.growth ? `${stats.revenue.growth > 0 ? '+' : ''}${stats.revenue.growth}%` : '',
       trend: (stats?.revenue?.growth ?? 0) >= 0 ? 'up' as const : 'down' as const,
     },
@@ -67,7 +67,7 @@ export default function AdminDashboardPage() {
   ], [stats]);
 
   const quickActions = useMemo(() => [
-    { to: ROUTES.ADMIN_PRODUCT_NEW, label: 'Add Product', icon: '📦', bg: 'bg-blue-50 hover:bg-blue-100 border border-blue-200', text: 'text-blue-800' },
+    { to: ROUTES.ADMIN_PRODUCT_NEW, label: 'Add Product', icon: '📦', bg: 'bg-primary-50 hover:bg-primary-100 border border-primary-200', text: 'text-primary-800' },
     { to: ROUTES.ADMIN_ORDERS, label: 'View Orders', icon: '📋', bg: 'bg-emerald-50 hover:bg-emerald-100 border border-emerald-200', text: 'text-emerald-800' },
     { to: ROUTES.ADMIN_CATEGORIES, label: 'Manage Categories', icon: '📂', bg: 'bg-amber-50 hover:bg-amber-100 border border-amber-200', text: 'text-amber-800' },
     { to: ROUTES.ADMIN_ANALYTICS, label: 'View Analytics', icon: '📊', bg: 'bg-violet-50 hover:bg-violet-100 border border-violet-200', text: 'text-violet-800' },
@@ -154,7 +154,7 @@ export default function AdminDashboardPage() {
               <p className="text-sm text-slate-500">Activity feed will populate as orders come in.</p>
               <Link
                 to={ROUTES.ADMIN_PRODUCT_NEW}
-                className="inline-flex items-center gap-1 mt-4 px-4 py-2 rounded-xl bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 transition"
+                className="inline-flex items-center gap-1 mt-4 px-4 py-2 rounded-xl bg-primary-600 text-white text-sm font-semibold hover:bg-primary-700 transition"
               >
                 Start by adding products →
               </Link>
