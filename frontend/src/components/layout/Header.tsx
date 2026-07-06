@@ -3,13 +3,14 @@ import { Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   FiSearch, FiShoppingCart, FiHeart, FiUser, FiMenu, FiX,
-  FiChevronDown, FiPackage, FiLogOut, FiGrid, FiSun, FiMoon
+  FiChevronDown, FiPackage, FiLogOut, FiGrid
 } from 'react-icons/fi';
 import { useAppSelector, useAppDispatch } from '../../store/hooks';
 import { logout } from '../../store/slices/authSlice';
 import { toggleMobileMenu, setSearchOpen } from '../../store/slices/uiSlice';
 import { ROUTES, APP_NAME, ROLES } from '../../config/constants';
 import api from '../../config/api';
+import Logo from '../common/Logo';
 
 const NAV_CATEGORIES = [
   { label: 'All Products', slug: '', icon: '🛍️' },
@@ -38,28 +39,12 @@ export default function Header() {
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [darkMode, setDarkMode] = useState(() => {
-    if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('theme');
-      if (saved) return saved === 'dark';
-      return document.documentElement.classList.contains('dark');
-    }
-    return false;
-  });
   const searchRef = useRef<HTMLDivElement>(null);
   const userMenuRef = useRef<HTMLDivElement>(null);
 
-  // Sync dark mode class on mount
+  // Force light mode on mount
   useEffect(() => {
-    const saved = localStorage.getItem('theme');
-    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    if (saved === 'dark' || (!saved && systemPrefersDark)) {
-      document.documentElement.classList.add('dark');
-      setDarkMode(true);
-    } else {
-      document.documentElement.classList.remove('dark');
-      setDarkMode(false);
-    }
+    document.documentElement.classList.remove('dark');
   }, []);
 
   // Scroll lock when mobile menu is open
@@ -111,7 +96,7 @@ export default function Header() {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+      navigate(`/products?search=${encodeURIComponent(searchQuery.trim())}`);
       setShowSuggestions(false);
     }
   };
@@ -119,18 +104,6 @@ export default function Header() {
   const handleLogout = () => {
     dispatch(logout());
     navigate('/');
-  };
-
-  const toggleDarkMode = () => {
-    const isDark = !darkMode;
-    setDarkMode(isDark);
-    if (isDark) {
-      document.documentElement.classList.add('dark');
-      localStorage.setItem('theme', 'dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-      localStorage.setItem('theme', 'light');
-    }
   };
 
   const cartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
@@ -145,27 +118,7 @@ export default function Header() {
         }`}
         style={{ background: scrolled ? 'var(--header-bg)' : undefined }}
       >
-        {/* Top black announcement/info strip */}
-        <div className="text-xs py-2 bg-[#111111] text-white border-b border-neutral-800">
-          <div className="max-w-7xl mx-auto px-4 flex justify-between items-center">
-            <span className="font-light tracking-wide flex items-center gap-1.5 opacity-90">
-              📍 Dudhpati-17, Bhaktapur, Nepal
-            </span>
-            <div className="flex items-center gap-5 opacity-90">
-              <Link to="/orders" className="hover:text-primary-500 transition-colors font-medium">Track Order</Link>
-              <a href="tel:+9779800000001" className="hover:text-primary-500 transition-colors font-medium">Support: +977-9800000001</a>
-              {!isAuthenticated ? (
-                <div className="flex items-center gap-3">
-                  <Link to="/login" className="hover:text-primary-500 transition-colors font-medium">Login</Link>
-                  <span className="text-neutral-700">|</span>
-                  <Link to="/register" className="hover:text-primary-500 transition-colors font-medium">Register</Link>
-                </div>
-              ) : (
-                <span className="font-semibold text-primary-500">Welcome, {user?.firstName}</span>
-              )}
-            </div>
-          </div>
-        </div>
+
 
         {/* Main header */}
         <div className="max-w-7xl mx-auto px-4 py-3">
@@ -181,23 +134,8 @@ export default function Header() {
             </button>
 
             {/* Logo */}
-            <Link to="/" className="flex items-center gap-2.5 shrink-0 group" id="logo">
-              <div className="relative">
-                <img
-                  src="/logo.jpg"
-                  alt={APP_NAME}
-                  className="w-10 h-10 rounded-xl object-cover shadow-sm group-hover:shadow-md transition-shadow"
-                />
-                <div className="absolute inset-0 rounded-xl bg-primary-600/5 group-hover:bg-primary-600/10 transition-colors" />
-              </div>
-              <div className="hidden sm:block">
-                <span className="text-xl font-bold tracking-tight">
-                  <span className="text-gradient">{APP_NAME}</span>
-                </span>
-                <p className="text-[10px] text-slate-400 font-medium leading-none mt-0.5 hidden md:block">
-                  Dudhpati-17, Bhaktapur
-                </p>
-              </div>
+            <Link to="/" id="logo">
+              <Logo size="md" />
             </Link>
 
             {/* Search bar */}
@@ -236,7 +174,7 @@ export default function Header() {
                         onClick={() => {
                           if (s.type === 'product') navigate(`/products/${s.slug}`);
                           else if (s.type === 'category') navigate(`/products?category=${s.slug}`);
-                          else navigate(`/search?q=${s.text}`);
+                          else navigate(`/products?search=${s.text}`);
                           setShowSuggestions(false);
                           setSearchQuery('');
                         }}
@@ -265,16 +203,6 @@ export default function Header() {
                 aria-label="Search"
               >
                 <FiSearch size={20} />
-              </button>
-
-              {/* Dark mode toggle */}
-              <button
-                onClick={toggleDarkMode}
-                className="p-2.5 rounded-xl hover:bg-slate-100 transition-colors text-slate-600"
-                aria-label="Toggle dark mode"
-                id="dark-mode-toggle"
-              >
-                {darkMode ? <FiSun size={19} className="text-amber-500" /> : <FiMoon size={19} />}
               </button>
 
               {/* Wishlist */}

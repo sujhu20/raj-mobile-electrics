@@ -24,7 +24,6 @@ const WishlistPage = lazy(() => import('./pages/customer/WishlistPage'));
 const OrdersPage = lazy(() => import('./pages/customer/OrdersPage'));
 const OrderDetailPage = lazy(() => import('./pages/customer/OrderDetailPage'));
 const ProfilePage = lazy(() => import('./pages/customer/ProfilePage'));
-const SearchPage = lazy(() => import('./pages/customer/SearchPage'));
 
 // ============================================================================
 // Lazy-loaded pages — Auth
@@ -101,7 +100,7 @@ function AppRoutes() {
           <Route path="/" element={<HomePage />} />
           <Route path="/products" element={<ProductListPage />} />
           <Route path="/products/:slug" element={<ProductDetailPage />} />
-          <Route path="/search" element={<SearchPage />} />
+          <Route path="/search" element={<Navigate to="/products" replace />} />
 
           {/* Auth (guest only) */}
           <Route path="/login" element={<GuestGuard><LoginPage /></GuestGuard>} />

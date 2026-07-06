@@ -16,8 +16,8 @@ function ProductCard({ product, index }: { product: any; index: number }) {
   const discount = product.compareAtPrice ? Math.round(((product.compareAtPrice - product.price) / product.compareAtPrice) * 100) : 0;
 
   return (
-    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.03 }}
-      className="group bg-white rounded-2xl border border-surface-200/60 overflow-hidden hover:shadow-card-hover transition-all duration-300 hover:-translate-y-1">
+    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ type: "spring", stiffness: 100, damping: 15, delay: index * 0.03 }}
+      className="group bg-white rounded-2xl border border-surface-200/60 overflow-hidden hover:shadow-card-hover transition-all duration-500 ease-out hover:-translate-y-2 hover:border-primary-300">
       <div className="relative aspect-square bg-surface-50 p-4 overflow-hidden">
         {discount > 0 && <span className="absolute top-3 left-3 px-2.5 py-1 bg-danger-500 text-white text-xs font-bold rounded-lg z-10">-{discount}%</span>}
         <button onClick={() => dispatch(toggleWishlist(product.id))}
@@ -68,6 +68,7 @@ export default function ProductListPage() {
   const currentSort = searchParams.get('sort') || 'newest';
   const currentMinPrice = searchParams.get('minPrice') || '';
   const currentMaxPrice = searchParams.get('maxPrice') || '';
+  const currentSearch = searchParams.get('search') || '';
   const currentPage = parseInt(searchParams.get('page') || '1');
 
   useEffect(() => {
@@ -84,6 +85,7 @@ export default function ProductListPage() {
     if (currentSort) params.set('sort', currentSort);
     if (currentMinPrice) params.set('minPrice', currentMinPrice);
     if (currentMaxPrice) params.set('maxPrice', currentMaxPrice);
+    if (currentSearch) params.set('search', currentSearch);
     params.set('page', String(currentPage));
     params.set('limit', '12');
 
@@ -94,7 +96,7 @@ export default function ProductListPage() {
       setProducts([]);
       setPagination(null);
     }).finally(() => setLoading(false));
-  }, [currentCategory, currentBrand, currentSort, currentMinPrice, currentMaxPrice, currentPage]);
+  }, [currentCategory, currentBrand, currentSort, currentMinPrice, currentMaxPrice, currentPage, currentSearch]);
 
   const updateFilter = (key: string, value: string) => {
     const params = new URLSearchParams(searchParams);
@@ -123,7 +125,7 @@ export default function ProductListPage() {
         <Link to="/" className="hover:text-primary-600 transition">Home</Link>
         <span>/</span>
         <span className="text-surface-900 font-medium">
-          {currentBrand || currentCategory || 'All Products'}
+          {currentSearch ? `Search results for "${currentSearch}"` : (currentBrand || currentCategory || 'All Products')}
         </span>
       </div>
 
@@ -195,6 +197,13 @@ export default function ProductListPage() {
 
         {/* Main Content */}
         <div className="flex-1 min-w-0">
+          {currentSearch && (
+            <div className="mb-4 bg-white rounded-xl border border-surface-200/60 p-4 shadow-sm">
+              <h2 className="text-base font-bold text-surface-900">
+                Search Results for: <span className="text-primary-600">"{currentSearch}"</span>
+              </h2>
+            </div>
+          )}
           {/* Toolbar */}
           <div className="flex items-center justify-between mb-6 bg-white rounded-xl border border-surface-200/60 p-3">
             <div className="flex items-center gap-3">

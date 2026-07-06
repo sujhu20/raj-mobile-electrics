@@ -21,8 +21,8 @@ function ProductCard({ product, index }: { product: any; index: number }) {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.05 }}
-      className="group bg-white rounded-2xl border border-surface-200/60 overflow-hidden hover:shadow-card-hover transition-all duration-300 hover:-translate-y-1"
+      transition={{ type: "spring", stiffness: 100, damping: 15, delay: index * 0.04 }}
+      className="group bg-white rounded-2xl border border-surface-200/60 overflow-hidden hover:shadow-card-hover transition-all duration-500 ease-out hover:-translate-y-2 hover:border-primary-300"
     >
       <div className="relative aspect-square bg-surface-50 p-4 overflow-hidden">
         {discount > 0 && (
@@ -162,9 +162,7 @@ export default function HomePage() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6 }}
             >
-              <span className="inline-block px-4 py-1.5 rounded-full bg-primary-50 border border-primary-200/60 text-primary-600 text-sm font-semibold mb-6">
-                🎉 Grand Opening Sale — Up to 40% Off
-              </span>
+
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight text-surface-900 font-sans">
                 Your Trusted
                 <span className="block text-transparent bg-clip-text bg-gradient-to-r from-primary-500 to-primary-700 mt-2">
@@ -280,38 +278,38 @@ export default function HomePage() {
       <section className="max-w-7xl mx-auto px-4 py-6">
         <div className="grid md:grid-cols-3 gap-4">
           <motion.div
-            whileHover={{ scale: 1.01 }}
-            className="rounded-2xl bg-gradient-to-r from-blue-600 to-blue-800 p-8 text-white relative overflow-hidden cursor-pointer"
+            whileHover={{ scale: 1.015, y: -2 }}
+            className="rounded-2xl bg-white border border-[#F0EDE6] p-8 text-[#2C2620] relative overflow-hidden cursor-pointer hover:shadow-md transition-all duration-300 group"
           >
-            <div className="absolute top-0 right-0 w-40 h-40 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2" />
+            <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/[0.04] rounded-full -translate-y-1/3 translate-x-1/3 pointer-events-none group-hover:scale-110 transition-transform duration-500" />
             <span className="text-4xl mb-2 block">📱</span>
-            <h3 className="text-xl font-bold mt-2">Smartphones</h3>
-            <p className="text-white/70 text-sm mt-1">Latest flagships from top brands</p>
-            <Link to="/products?category=smartphones" className="inline-flex items-center gap-1 text-sm font-semibold mt-3 hover:gap-2 transition-all">
+            <h3 className="text-lg font-bold mt-2 text-[#2C2620]">Smartphones</h3>
+            <p className="text-[#706557] text-sm mt-1">Latest flagships from top brands</p>
+            <Link to="/products?category=smartphones" className="inline-flex items-center gap-1 text-xs font-bold text-primary-600 mt-4 group-hover:gap-2 transition-all">
               Shop Now <FiChevronRight />
             </Link>
           </motion.div>
           <motion.div
-            whileHover={{ scale: 1.01 }}
-            className="rounded-2xl bg-gradient-to-r from-purple-600 to-purple-800 p-8 text-white relative overflow-hidden cursor-pointer"
+            whileHover={{ scale: 1.015, y: -2 }}
+            className="rounded-2xl bg-white border border-[#F0EDE6] p-8 text-[#2C2620] relative overflow-hidden cursor-pointer hover:shadow-md transition-all duration-300 group"
           >
-            <div className="absolute top-0 right-0 w-40 h-40 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2" />
+            <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/[0.04] rounded-full -translate-y-1/3 translate-x-1/3 pointer-events-none group-hover:scale-110 transition-transform duration-500" />
             <span className="text-4xl mb-2 block">🔌</span>
-            <h3 className="text-xl font-bold mt-2">Electrical Items</h3>
-            <p className="text-white/70 text-sm mt-1">Cables, chargers, switches, & essentials</p>
-            <Link to="/products?category=electrical-items" className="inline-flex items-center gap-1 text-sm font-semibold mt-3 hover:gap-2 transition-all">
+            <h3 className="text-lg font-bold mt-2 text-[#2C2620]">Electrical Items</h3>
+            <p className="text-[#706557] text-sm mt-1">Cables, chargers, switches, & essentials</p>
+            <Link to="/products?category=electrical-items" className="inline-flex items-center gap-1 text-xs font-bold text-primary-600 mt-4 group-hover:gap-2 transition-all">
               Shop Now <FiChevronRight />
             </Link>
           </motion.div>
           <motion.div
-            whileHover={{ scale: 1.01 }}
-            className="rounded-2xl bg-gradient-to-r from-surface-800 to-surface-900 p-8 text-white relative overflow-hidden cursor-pointer"
+            whileHover={{ scale: 1.015, y: -2 }}
+            className="rounded-2xl bg-white border border-[#F0EDE6] p-8 text-[#2C2620] relative overflow-hidden cursor-pointer hover:shadow-md transition-all duration-300 group"
           >
-            <div className="absolute top-0 right-0 w-40 h-40 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2" />
+            <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/[0.04] rounded-full -translate-y-1/3 translate-x-1/3 pointer-events-none group-hover:scale-110 transition-transform duration-500" />
             <span className="text-4xl mb-2 block">⌚</span>
-            <h3 className="text-xl font-bold mt-2">Wearables</h3>
-            <p className="text-white/70 text-sm mt-1">Smartwatches & fitness trackers</p>
-            <Link to="/products?category=smart-watches" className="inline-flex items-center gap-1 text-sm font-semibold mt-3 hover:gap-2 transition-all">
+            <h3 className="text-lg font-bold mt-2 text-[#2C2620]">Wearables</h3>
+            <p className="text-[#706557] text-sm mt-1">Smartwatches & fitness trackers</p>
+            <Link to="/products?category=smart-watches" className="inline-flex items-center gap-1 text-xs font-bold text-primary-600 mt-4 group-hover:gap-2 transition-all">
               Shop Now <FiChevronRight />
             </Link>
           </motion.div>
